@@ -132,7 +132,7 @@ int AdcToSig(int adc)
   int sig;
 
   sig = Km[Item_Index[Y_SENSITIVITY]] * (2048 - adc) / 4096 + 120 + (Item_Index[CALIBRATE_OFFSET] - 100);
-  sig += sig * (Item_Index[CALIBRATE_RANGE] - 100) / 200;
+  sig += (sig - Item_Index[V0]) * (Item_Index[CALIBRATE_RANGE] - 100) / 200;
   return sig;
 }
 
@@ -142,10 +142,10 @@ int AdcToSig(int adc)
 *******************************************************************************/
 int SigToAdc(int sig)
 {
-  int adc;
+  int adc, t = Item_Index[CALIBRATE_RANGE] - 100;
  
+  sig = (sig * 200 + Item_Index[V0] * t) / (200 + t);
   adc = 2048 - (sig - 120 - (Item_Index[CALIBRATE_OFFSET] - 100)) * 4096 / Km[Item_Index[Y_SENSITIVITY]];
-  sig -= sig * (Item_Index[CALIBRATE_RANGE] - 100) / 200;
   return adc;
 }
 
