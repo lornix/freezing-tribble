@@ -27,8 +27,8 @@ void main(void)
 
   Display_Str(80, 87, GRN,   PRN, "System Initializing");
   Display_Str(102, 71, GRN,   PRN, "Please Wait");
-  Display_Str(8, 39, WHITE, PRN, "DSO Firmware Copyright (c) BenF 2010"); 
-  Display_Str(8, 23, YEL,   PRN, "LIB ver 3.01");
+  Display_Str(8, 39, WHITE, PRN, "DSO FW Copyright (c) BenF 2010-2011"); 
+  Display_Str(8, 23, YEL,   PRN, "LIB ver 3.13");
   
   //WaitForKey();
 

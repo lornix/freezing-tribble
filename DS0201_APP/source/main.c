@@ -25,7 +25,7 @@ void   main(void)
    NVIC_Configuration();
 
 /*----------display APP version ----------*/
-   Display_Str(168, 23, YEL, PRN, "APP ver 3.11");
+   Display_Str(168, 23, YEL, PRN, "APP ver 3.13");
    frm_col = FRM_COLOR;
    
    Delayms(2000);
