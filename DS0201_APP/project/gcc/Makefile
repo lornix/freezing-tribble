@@ -9,6 +9,7 @@ NAME = dso-app
 BASE    = ../../..
 PRJ     = $(BASE)/DS0201_APP
 STM_LIB = $(BASE)/library
+DSP_LIB = $(BASE)/DSPLib
 
 INCLUDES = -I $(PRJ)/include \
            -I $(STM_LIB)/inc
@@ -47,6 +48,9 @@ COBJ = $(CSRC:.c=.o)
 
 ASRC = ASM_Function-gcc.s \
        cortexm3_macro.s \
+       $(DSP_LIB)/asm-gcc/cr4_fft_1024_stm32.s \
+       $(DSP_LIB)/asm-gcc/cr4_fft_256_stm32.s \
+       $(DSP_LIB)/asm-gcc/cr4_fft_64_stm32.s \
        startup_stm32f10x_md.s
 
 AOBJ = $(ASRC:.s=.o)
@@ -66,6 +70,6 @@ binaries: $(NAME).elf
 	$(CP) -O ihex $(NAME).elf $(NAME).hex
 
 clean:
-	rm -f *.o $(PRJ)/source/*.o $(STM_LIB)/src/*.o \
+	rm -f *.o $(PRJ)/source/*.o $(STM_LIB)/src/*.o $(DSP_LIB)/asm-gcc/*.o \
 	    $(NAME).elf $(NAME).bin $(NAME).hex $(NAME).lst $(NAME).map
 #	    ASM_Function-gcc.[sS] \
