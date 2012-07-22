@@ -12,6 +12,9 @@ File Name: main.c
 #include "string.h"
 #include "ASM_Function.h"
 
+/* For libc functions used by the ST DSP library (FFT) */
+int __errno = 0;
+
 void   main(void)
 {
    unsigned short i;
