@@ -233,7 +233,7 @@ void        Draw_Reference(void)
 }
 
 /*******************************************************************************
- Function Name : Erase_Vawe
+ Function Name : Erase_Wave
  Description : Erase waveform from t1 to t2 - 1 inclusive
 *******************************************************************************/
 void        Erase_Wave(unsigned short t1, unsigned short t2)
@@ -250,7 +250,7 @@ void        Erase_Wave(unsigned short t1, unsigned short t2)
 }
 
 /*******************************************************************************
- Function Name : Redraw_Vawe
+ Function Name : Redraw_Wave
  Description : Process signal buffer and redraw waveform
 *******************************************************************************/
 void        Redraw_Wave(void)
