@@ -263,6 +263,8 @@ int SigToAdc(int sig)
 *******************************************************************************/
 void    Process_Wave(void)
 {
+   // ScanMode: 0=idle, 1=pre-fetch, 2=trig-fetch, 3=post-fetch
+
    int             p, q;
    int             Vs;
    unsigned short  t;  // relative position of last capture
@@ -513,36 +515,40 @@ void    Scan_Wave(void)
  Function Name : Measure_Wave
  Description :  calculate the frequency,cycle,duty, Vpp(peak-to-peak value),Vavg(average of alternating voltage),
                 Vrms (effective value of alternating voltage), DC voltage
+				AND calculate FFT
 *******************************************************************************/
 void      Measure_Wave(void)
 {
    unsigned short  i, j, t_max = 0xffff, t_min = 0, Trig = 0;
    unsigned int    Threshold0, Threshold1, Threshold2, Threshold3;
    int             Vk = 0, Vn, Vm, Vp, Vq, Tmp1, Tmp2;
-   unsigned short  Edge, First_Edge, Last_Edge;
+   unsigned short  Edge, First_Edge, Last_Edge;  //better names: First_Edge_i and Last_Edge_i
    
    Edge = 0,
    First_Edge = 0;
    Last_Edge = 0;
    Threshold0 = SigToAdc(Item_Index[V0]);
-   Threshold1 = SigToAdc(Item_Index[VT] - Item_Index[TRIG_SENSITIVITY]);
-   Threshold2 = SigToAdc(Item_Index[VT] + Item_Index[TRIG_SENSITIVITY]);
-   Threshold3 = SigToAdc(Item_Index[VT]);
+   Threshold1 = SigToAdc(Item_Index[VT] - Item_Index[TRIG_SENSITIVITY]); // rename to Threshold_VTBELOW
+   Threshold2 = SigToAdc(Item_Index[VT] + Item_Index[TRIG_SENSITIVITY]); // rename to Threshold_VTABOVE
+   Threshold3 = SigToAdc(Item_Index[VT]);								 // rename to Threshold_VT
    
-   for (i = 0; i < BUFFER_SIZE; i++)
+   for (i = 0; i < BUFFER_SIZE; i++) //scan whole buffer for Vk, edges and min and max value
    {
       j = (i + tp_to_abs);
       if (j >= BUFFER_SIZE) j -= BUFFER_SIZE;
 
-      Vk += Scan_Buffer[j];
+      Vk += Scan_Buffer[j]; // Vk computes average value for Vdc
+
+      // calculate min and max value for Vpp (only in screen area)
       if ((i >= t0) && (i < t0 + 300))
       {
-         if (Scan_Buffer[j] < t_max)
+         if (Scan_Buffer[j] < t_max) //note that value is reversed: low voltage is high value
             t_max = Scan_Buffer[j];
          if (Scan_Buffer[j] > t_min)
             t_min = Scan_Buffer[j];
       }
-      if ((Trig == 0) && (Scan_Buffer[j] > Threshold1))
+
+      if ((Trig == 0) && (Scan_Buffer[j] > Threshold1)) //value under VTBELOW?
          Trig = 1; 
 
       if ((Trig == 1) && (Scan_Buffer[j] < Threshold2))
@@ -561,7 +567,7 @@ void      Measure_Wave(void)
    }
    Vk = Vk / BUFFER_SIZE;
 
-   MeFr = 0;
+   MeFr = 0; //flag indicating frequency needs to be updated
    if (Edge != 0)
    {
       MeFr = 1; // true
@@ -573,7 +579,11 @@ void      Measure_Wave(void)
          j = (i + tp_to_abs);
          if (j >= BUFFER_SIZE) j -= BUFFER_SIZE;
       
-         if (Scan_Buffer[j] < Threshold3) Vm++;
+	 //count number of samples below trigger sensitivity
+         if (Scan_Buffer[j] < Threshold3)
+	 {
+	   Vm++;
+	 }
          
          Vp = (4096 - Scan_Buffer[j]) - Threshold0;
          Vn += (Vp * Vp) / 8; 
@@ -587,7 +597,12 @@ void      Measure_Wave(void)
         Frequency = (Edge * (1000000000 / 1167) / (Last_Edge - First_Edge)) * 1000; // ??? suspicious, check
       else
         Frequency = (Edge * (1000000000 / T_Scale[Item_Index[X_SENSITIVITY]]) / (Last_Edge - First_Edge)) * 1000;
-      
+	// T_Scale[] = duration of 1 sample in nS (1 sample = 1/25 DIV)
+        // T_Scale[] is between 40 (1us/DIV) ... 400000000 (10s/Div) --> truncate bug
+        // the last multiplication with 1000 is for storing a fraction in an integer. Displayed value is divided by 1000!
+	// 1ms/DIV (1 DIV=25 samples)=1/25 ms per sample, 10 samples = 10*(1/25)ms = 10/25ms => freq = 25/10kHz
+	// 
+
       //Cycle = ((Last_Edge - First_Edge) * T_Scale[Item_Index[X_SENSITIVITY]]) / Edge;
       //Tlow = ((Last_Edge - First_Edge - Vm) * T_Scale[Item_Index[X_SENSITIVITY]]) / Edge;
       //Thigh = (Vm * T_Scale[Item_Index[X_SENSITIVITY]]) / Edge;
@@ -604,19 +619,23 @@ void      Measure_Wave(void)
     
    if (t_min < t_max) t_min = t_max;
 
+   // Vpp
    Tmp1 = AdcToSig(t_min);
    Vmin = (Tmp1 - Item_Index[V0]) * V_Scale[Item_Index[Y_SENSITIVITY]];
    Tmp2 = AdcToSig(t_max);
    Vmax = (Tmp2 - Item_Index[V0]) * V_Scale[Item_Index[Y_SENSITIVITY]];
    Tmp1 = Tmp2 - Tmp1;
    Vpp = Tmp1 * V_Scale[Item_Index[Y_SENSITIVITY]];
+
+   // Vdc
    Tmp2 = AdcToSig(Vk);
    Vdc = (Tmp2 - Item_Index[V0]) * V_Scale[Item_Index[Y_SENSITIVITY]];
 
    MeDC = 1;
-   Update[MEASURE_KIND] = 1;
+   Update[MEASURE_KIND] = 1; //true
  
-   if ((Item_Index[SYNC_MODE] == 4) && (Wait_CNT == 0))
+   // adjust settings in FIT mode
+   if ((Item_Index[SYNC_MODE] == 4) && (Wait_CNT == 0)) // only every 6th cycle
    {
       if ((Edge < 20) && (Item_Index[X_SENSITIVITY] < 14))
       {
@@ -654,7 +673,8 @@ void      Measure_Wave(void)
       Update[TRIG_LEVEL] = 1;
       Update[CURSORS] = 1;
    }
-   if (Wait_CNT > 5) Wait_CNT = 0;
+   if (Wait_CNT > 5) //adjust FIT settings only once every 6 cycles
+        Wait_CNT = 0;
    else Wait_CNT++;
 
    Calculate_FFT();
