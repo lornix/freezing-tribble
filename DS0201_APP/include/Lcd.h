@@ -36,7 +36,7 @@
 #define GRD_COLOR   (RGB(32,32,32) & ~F_SELEC) | GRD_FLAG
 #define WAV_COLOR   (RGB(0,63,63) & ~F_SELEC) | WAV_FLAG
 #define CH2_COLOR   (RGB(63,63,0) & ~F_SELEC) | CH2_FLAG
-#define REF_COLOR   (RGB(63,0,63) & ~F_SELEC) | REF_FLAG
+#define REF_COLOR   (RGB(63,63,0) & ~F_SELEC) | REF_FLAG
 
 //========================= color definitions ================================== 
 #define YEL         RGB(63,63,0)
