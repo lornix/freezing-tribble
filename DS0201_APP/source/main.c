@@ -17,7 +17,7 @@ int __errno = 0;
 
 void   main(void)
 {
-   unsigned short i;
+   unsigned short i; //,x0,width, height, y0;
 
 /*--------------initialize the hardware-----------*/
    NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0xC000);
@@ -35,12 +35,75 @@ void   main(void)
    
 /*--------initialize the display --------*/
 
+   //Clear_Screen(BLACK); 
    Display_Frame();
    DrawMenu();
    Read_Parameter();
    RestoreConfig();
    SelectMenu(0);
 
+/* meu teste 
+
+
+   while (1) 
+   {
+     x0 = 50;
+     width = 100;
+     height = 100;
+     y0 = 1;
+     if (Key_Buffer) {
+       if (Key_Buffer == KEYCODE_LEFT)
+       {  
+         Clear_Screen(BLACK);   
+         for (i = x0 + 2; i < (x0 + width - 2); i++) {
+           Point_SCR(i, y0);
+           Set_Pixel(WHITE);
+           Point_SCR(i, y0 + height - 1);
+           Set_Pixel(WHITE);
+         }
+         Display_Str(140,150,GRN,PRN, " BOTAO ESQUERDO");
+       }  
+       else if (Key_Buffer == KEYCODE_RIGHT){
+         Clear_Screen(BLACK); 
+         Display_Str(140,150,GRN,PRN, " BOTAO DIREITO ");
+         Point_SCR(10,10);
+         Set_Pixel(WHITE);
+         Point_SCR(50,50);
+         Set_Pixel(WHITE);
+       }  
+       else if (Key_Buffer == KEYCODE_UP){
+         Clear_Screen(BLACK); 
+         Display_Str(140,150,GRN,PRN, " BOTAO ACIMA   ");
+       }  
+       else if (Key_Buffer == KEYCODE_DOWN){
+         Clear_Screen(BLACK);        
+         Display_Str(140,150,GRN,PRN, " BOTAO ABAIXO  ");
+       }  
+       else if (Key_Buffer == KEYCODE_M){
+         Clear_Screen(BLACK);     
+         Display_Str(140,150,GRN,PRN, " BOTAO OK      ");
+       }  
+       else if (Key_Buffer == KEYCODE_PLAY){
+         Clear_Screen(BLACK);   
+         Display_Str(140,150,GRN,PRN, " BOTAO A       ");
+       }  
+       else if (Key_Buffer == KEYCODE_B){
+         Clear_Screen(BLACK); 
+         Display_Str(140,150,GRN,PRN, " BOTAO B       ");
+       }  
+      
+       else
+       {
+         // faça nada
+       }
+       Key_Buffer = 0;
+       
+     } // fim do if das keys
+   } // fim do while
+   
+ */  
+   
+   
 /*--------application main loop --------*/
 
    while (1) {
