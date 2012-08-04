@@ -40,7 +40,7 @@ unsigned const short Ks[22] =   // interpolation coefficient of the horizontal s
 
 // ------------ For FFT ---------------------------------------------------
 
-#define NP        256   // Number of FFT points: 64, 256 or 1024
+#define NP        64   // Number of FFT points: 64, 256 or 1024
 
 #define X_OFFSET  3     // Offset from the right of the screen (in pixels)
 #define SPLIT_X   (1 + X_OFFSET)  // left = fft, right = wave
@@ -68,6 +68,7 @@ unsigned const short Hanning64[64] =
       0xDDD5, 0xE608, 0xED39, 0xF353, 0xF848, 0xFC0B, 0xFE92, 0xFFD7,
     };
 
+/*
 unsigned const short Hanning256[256] =
    {
       0x0000, 0x000A, 0x0028, 0x0059, 0x009F, 0x00F8, 0x0165, 0x01E6, 
@@ -142,7 +143,7 @@ unsigned const short Hanning1024[1024] =
      0xFEE3, 0xFEFD, 0xFF15, 0xFF2D, 0xFF43, 0xFF58, 0xFF6C, 0xFF7E, 0xFF8F, 0xFF9F, 
      0xFFAE, 0xFFBC, 0xFFC8, 0xFFD3, 0xFFDD, 0xFFE6, 0xFFED, 0xFFF3, 0xFFF8, 0xFFFC, 
      0xFFFF, 0xFFFF};
-
+*/
 /*******************************************************************************
  Function Name : Mark_Trig
  Description : mark the trigger point and setup for post scan
@@ -710,8 +711,8 @@ void Calculate_FFT( void )
   {
     // Hanning value between 0..65535 instead of 0..1
     if (NP == 64) factor = Hanning64[i]; 
-    if (NP == 256) factor = Hanning256[i]; 
-    if (NP == 1024) factor = Hanning1024[i];     
+//    if (NP == 256) factor = Hanning256[i]; 
+//    if (NP == 1024) factor = Hanning1024[i];     
     FFT_in[i]     = ( FFT_in[i]     * factor ) >> 16;
     FFT_in[iback] = ( FFT_in[iback] * factor ) >> 16;
     iback--;
