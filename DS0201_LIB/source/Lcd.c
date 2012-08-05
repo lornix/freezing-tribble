@@ -104,6 +104,7 @@ unsigned const short Char_Dot[760] =
    0x0780,0x0480,0x3CF0,0x2010,0x2010,0x2010,0x2010,0x2010 // ~ Empty head
 };                                            
 
+/*
 unsigned const short Logo_Dot[] = {
   7,38,
   0xfc00,0x00ff,0x0000,0x0000,0x0000,0xfffe,0x0001,
@@ -145,7 +146,9 @@ unsigned const short Logo_Dot[] = {
   0xfff8,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,
   0x3ff0,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000
 };
+*/
 
+/*
 unsigned const char Ref_Buffer[304] = {
    100,116,130,144,157,167,175,181,185,185,184,179,173,164,153,141,128,114,100,86, 73, 60, 49, 40, 33, 27, 24, 24, 25, 29,
    35, 43, 52, 63, 75, 87, 100,112,124,135,145,153,160,164,167,167,166,163,157,150,142,133,122,111,100,89, 79, 70, 61, 54,
@@ -159,6 +162,7 @@ unsigned const char Ref_Buffer[304] = {
    128,127,124,121,117,113,109,104,100,96, 92, 88, 85, 83, 81, 80, 79, 79, 80, 81, 83, 85, 88, 91, 94, 97, 100,103,106,108,
    108,108,6,8
  };
+*/
 
 unsigned short Get_Font_8x14(unsigned char chr, unsigned char row)
 {
@@ -169,7 +173,8 @@ unsigned short Get_Font_8x14(unsigned char chr, unsigned char row)
 
 unsigned char Get_Ref_Wave(unsigned short idx)
 {
-  return Ref_Buffer[idx];
+    return 50; /* flat line */
+//  return Ref_Buffer[idx];
 }
 
 /*******************************************************************************
@@ -318,6 +323,7 @@ void Display_Str(unsigned short x0, unsigned short y0, unsigned short Color, uns
 /*******************************************************************************
  Display_Logo: Display Logo   Input: X, Y 
 *******************************************************************************/
+/*
 void Display_Logo(unsigned short Dot_x, unsigned short Dot_y)
 { 
   unsigned short i, j, k, l, Color, b;
@@ -365,6 +371,7 @@ void Display_Logo(unsigned short Dot_x, unsigned short Dot_y)
   Point_SCR(319, 0);
   for (j=0; j<240; ++j) Set_Pixel(Color);
 }
+*/
 
 
 void Display_Info(unsigned short x0, unsigned short y0, char *Pre, long Num)

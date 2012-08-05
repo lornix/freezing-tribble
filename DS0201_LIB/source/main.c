@@ -34,7 +34,7 @@ void main(void)
   Timer_Configuration();
   LCD_Initial();
   Clear_Screen(BLACK); 
-  Display_Logo(110,150);  
+//  Display_Logo(110,150);  
  
 /*----------Power ON Information----------*/ 
 
