@@ -20,7 +20,7 @@ void   main(void)
    unsigned short i; //,x0,width, height, y0;
 
 /*--------------initialize the hardware-----------*/
-   NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0xC000);
+   NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x14c00);
    NVIC_Configuration();
 
 /*----------display APP version ----------*/
