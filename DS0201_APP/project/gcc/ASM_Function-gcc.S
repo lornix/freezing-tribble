@@ -61,37 +61,37 @@
 /*  Table of library functions start address */
 /* ******************************************************************************* */
 
-label__USB_Istr:	.word 0x08004111
+label__USB_Istr:	.word 0x08007911
 .thumb_func
 __USB_Istr:                /* void __USB_Istr(void); */
     LDR R15, label__USB_Istr	
 
-label__CTR_HP:		.word 0x08004115
+label__CTR_HP:		.word 0x08007915
 .thumb_func
 __CTR_HP:                  /* void __CTR_HP(void) */
     LDR R15, label__CTR_HP
 
-label__MSD_WriteBlock:	.word 0x08004119
+label__MSD_WriteBlock:	.word 0x08007919
 .thumb_func
 __MSD_WriteBlock:          /* u8 __MSD_WriteBlock(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite) */
     LDR R15,       label__MSD_WriteBlock
 
-label__MSD_ReadBlock:	.word 0x0800411d
+label__MSD_ReadBlock:	.word 0x0800791d
 .thumb_func
 __MSD_ReadBlock:           /* u8 __MSD_ReadBlock(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead) */
     LDR R15,       label__MSD_ReadBlock
 
-label__Get_Font_8x14:	.word 0x08004121
+label__Get_Font_8x14:	.word 0x08007921
 .thumb_func
 __Get_Font_8x14:           /* u16 __Get_TAB_8x14(unsigned char Code, unsigned short Row) */
     LDR R15,       label__Get_Font_8x14
 
-label__Get_Ref_Wave:	.word 0x08004125
+label__Get_Ref_Wave:	.word 0x08007925
 .thumb_func
 __Get_Ref_Wave:            /* u8 __Get_Ref_Wave(unsigned short i) */
     LDR R15,       label__Get_Ref_Wave
 
-label__SD_Set_Changed:	.word 0x08004129
+label__SD_Set_Changed:	.word 0x08007929
 .thumb_func
 __SD_Set_Changed:          /* void __SD_Set_Changed(void) */
     LDR R15,       label__SD_Set_Changed
