@@ -4,6 +4,8 @@
 #ifndef __HWV1_CONFIG_H
 #define __HWV1_CONFIG_H
 
+#include "Interface.h"
+
 #define TIM1_CR1    (*((vu32 *)(TIM1_BASE+0x00)))
 #define TIM1_CR2    (*((vu32 *)(TIM1_BASE+0x04)))
 #define TIM1_DIER   (*((vu32 *)(TIM1_BASE+0x0C)))
@@ -164,6 +166,8 @@ char SD_Card_ON(void);
 
 void Delayms(unsigned short delay);
 void WaitForKey(void);
+
+extern LIB_Interface *pLib;
 
 extern volatile unsigned short Delay_Counter;
 extern volatile unsigned short Refresh_Counter;

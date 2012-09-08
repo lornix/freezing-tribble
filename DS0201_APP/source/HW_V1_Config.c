@@ -6,6 +6,16 @@ File Name: HW_V1_config.c
 #include "stm32f10x_it.h"
 #include "stm32f10x_systick.h"
 #include "HW_V1_Config.h"
+#include <stdlib.h>
+
+void __iar_program_start(void);
+
+const APP_Interface APP_Offsets = {
+  APP_SIGNATURE,
+  __iar_program_start
+};
+
+LIB_Interface *pLib;
 
 volatile unsigned short Refresh_Counter, Delay_Counter;
 volatile unsigned char Key_Buffer;

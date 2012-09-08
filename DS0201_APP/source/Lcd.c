@@ -524,7 +524,7 @@ void      Display_Str(short x0, short y0, short Color, char Mode, unsigned const
       for (i = 0; i < 8; i++)
       {
          if (*s >= 0x22)
-           b = __Get_Font_8x14(*s, i);
+           b = pLib->Get_Font_8x14(*s, i);
          for (j = 0; j < 12; j++)       //means the char height pixel
          {
             if (b & 4)

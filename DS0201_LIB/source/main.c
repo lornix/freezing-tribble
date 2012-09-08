@@ -8,8 +8,6 @@
 #include "HW_V1_Config.h"
 #include "memory.h"
 
-void __APP_Start(void);
-
 void main(void)
 {
 /*--------------initialization-----------*/
@@ -34,6 +32,12 @@ void main(void)
   
   //WaitForKey();
 
-  __APP_Start();
+  // check for presence of APP and jump to start
+  pApp = (APP_Interface *)*(u32 *)(APP_VECTORS + 7 * 4);
+  if (pApp->Signature == APP_SIGNATURE)
+      pApp->APP_Start();
+
+  Display_Str(150, 23, RED, PRN, "No APP found");
+  while (1);
 }
 /********************************* END OF FILE ********************************/

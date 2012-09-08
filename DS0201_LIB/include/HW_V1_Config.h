@@ -5,6 +5,7 @@
 #define __HWV1_CONFIG_H
 
 #include "usb_type.h"
+#include "Interface.h"
 
 #define BULK_MAX_PACKET_SIZE  0x00000040
 
@@ -183,6 +184,8 @@ char SD_Card_ON(void);
 
 void Delayms(unsigned short delay);
 void WaitForKey(void);
+
+extern APP_Interface *pApp;
 
 extern volatile unsigned short Delay_Counter;
 extern volatile unsigned char Key_Buffer;

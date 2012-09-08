@@ -4,15 +4,6 @@
 
   RSEG CODE:CODE(2)
   
-  EXPORT __CTR_HP
-  EXPORT __USB_Istr
-  
-  EXPORT __MSD_WriteBlock
-  EXPORT __MSD_ReadBlock
-  EXPORT __Get_Font_8x14
-  EXPORT __Get_Ref_Wave
-  EXPORT __SD_Set_Changed
-
   EXPORT __Erase_Color
   EXPORT __Add_Color
   EXPORT __Get_Pixel
@@ -48,25 +39,6 @@ REF_FLAG      =   0x1000
 WAV_COLOR     = (RGB(0,63,63) & ~F_SELEC) | WAV_FLAG
 CH2_COLOR     = (RGB(63,63,0) & ~F_SELEC) | CH2_FLAG
 REF_COLOR     = (RGB(63,0,63) & ~F_SELEC) | REF_FLAG
-
-;*******************************************************************************
-; Table of library functions start address
-;*******************************************************************************
-__CTR_HP                  ;void __CTR_HP(void)
-    B       0x08004159
-__USB_Istr                ;void __USB_Istr(void);
-    B       0x08004155
-;-------------------------------------------------------------------------------
-__MSD_WriteBlock          ;u8 __MSD_WriteBlock(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
-    B       0x0800415D 
-__MSD_ReadBlock           ;u8 __MSD_ReadBlock(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead)
-    B       0x08004161 
-__Get_Font_8x14           ;u16 __Get_TAB_8x14(unsigned char Code, unsigned short Row)
-    B       0x08004165
-__Get_Ref_Wave            ;u8 __Get_Ref_Wave(unsigned short i)
-    B       0x08004169
-__SD_Set_Changed          ;void __SD_Set_Changed(void)
-    B       0x0800416D
 
 ;*******************************************************************************
 __Add_Color             ;void __Add_Color(unsigned short x,unsigned short y,unsigned short Color)
