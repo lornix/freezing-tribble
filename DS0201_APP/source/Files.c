@@ -69,11 +69,6 @@ char FAT_Info(void)
       FDT_Start = Root_Addr + (FDT_Cluster - 2) * SecPerClus * SectorSize;
    }
 
-//   Display_Info(8, 65, "SectorSize", SectorSize);
-//   Display_Info(8, 50, "FAT1_Addr", FAT1_Addr);
-//   Display_Info(8, 35, "DiskStart", DiskStart);
-//   Display_Info(8, 20, "Root_Addr", Root_Addr);
-
    return 0; // Disk ok!
 
 }
@@ -109,12 +104,6 @@ unsigned char SetClusterNext(void)
     File_Addr = Root_Addr + (ClusterNum - 2) * SecPerClus * SectorSize;
   }
 
-//  Display_Info(8, 65, "File_Addr", File_Addr);
-//  Display_Info(8, 50, "Root_Addr", Root_Addr);
-//  Display_Info(8, 35, "ClusterNum", ClusterNum);
-//  Display_Info(8, 20, "SecPerClus", SecPerClus);
-//  WaitForKey();
-  
   return 0;
 }
 
@@ -188,11 +177,6 @@ char Open_File(unsigned const char *name, unsigned char *num, unsigned const cha
                File_Addr = Root_Addr + (ClusterNum - 2) * SecPerClus * SectorSize;
             }
 
-//  Display_Info(8, 65, "File_Addr", File_Addr);
-//  Display_Info(8, 50, "Root_Addr", Root_Addr);
-//  Display_Info(8, 35, "ClusterNum", ClusterNum);
-//  Display_Info(8, 20, "SecPerClus", SecPerClus);
-
             Dir_Offset = i;
             return 0; // Open BMP File ok!
          }
@@ -250,7 +234,6 @@ char     Writ_BMP_File(void)
    if (i > 0)
      rval = __MSD_WriteBlock(F_Buff, File_Addr, 512);
    
-   //DirTouch();
    __SD_Set_Changed();
    return rval;
 }
