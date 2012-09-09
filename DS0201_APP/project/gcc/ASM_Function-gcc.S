@@ -12,15 +12,6 @@
   RSEG CODE:CODE(2)
 #endif
   
-  EXPORT __CTR_HP
-  EXPORT __USB_Istr
-  
-  EXPORT __MSD_WriteBlock
-  EXPORT __MSD_ReadBlock
-  EXPORT __Get_Font_8x14
-  EXPORT __Get_Ref_Wave
-  EXPORT __SD_Set_Changed
-
   EXPORT __Erase_Color
   EXPORT __Add_Color
   EXPORT __Get_Pixel
@@ -56,45 +47,6 @@
 .equiv WAV_COLOR, (RGB(0,63,63) & ~F_SELEC) | WAV_FLAG
 .equiv CH2_COLOR, (RGB(63,63,0) & ~F_SELEC) | CH2_FLAG
 .equiv REF_COLOR, (RGB(63,0,63) & ~F_SELEC) | REF_FLAG
-
-/* ******************************************************************************* */
-/*  Table of library functions start address */
-/* ******************************************************************************* */
-
-label__USB_Istr:	.word 0x08004111
-.thumb_func
-__USB_Istr:                /* void __USB_Istr(void); */
-    LDR R15, label__USB_Istr	
-
-label__CTR_HP:		.word 0x08004115
-.thumb_func
-__CTR_HP:                  /* void __CTR_HP(void) */
-    LDR R15, label__CTR_HP
-
-label__MSD_WriteBlock:	.word 0x08004119
-.thumb_func
-__MSD_WriteBlock:          /* u8 __MSD_WriteBlock(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite) */
-    LDR R15,       label__MSD_WriteBlock
-
-label__MSD_ReadBlock:	.word 0x0800411d
-.thumb_func
-__MSD_ReadBlock:           /* u8 __MSD_ReadBlock(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead) */
-    LDR R15,       label__MSD_ReadBlock
-
-label__Get_Font_8x14:	.word 0x08004121
-.thumb_func
-__Get_Font_8x14:           /* u16 __Get_TAB_8x14(unsigned char Code, unsigned short Row) */
-    LDR R15,       label__Get_Font_8x14
-
-label__Get_Ref_Wave:	.word 0x08004125
-.thumb_func
-__Get_Ref_Wave:            /* u8 __Get_Ref_Wave(unsigned short i) */
-    LDR R15,       label__Get_Ref_Wave
-
-label__SD_Set_Changed:	.word 0x08004129
-.thumb_func
-__SD_Set_Changed:          /* void __SD_Set_Changed(void) */
-    LDR R15,       label__SD_Set_Changed
 
 /* ******************************************************************************* */
 .thumb_func
