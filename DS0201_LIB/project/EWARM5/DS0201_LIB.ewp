@@ -820,9 +820,6 @@
   <group>
     <name>Application</name>
     <file>
-      <name>$PROJ_DIR$\..\..\source\ASM_Function.s</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\..\source\HW_V1_Config.c</name>
     </file>
     <file>
