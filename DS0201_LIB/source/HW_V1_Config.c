@@ -73,7 +73,7 @@ void NVIC_Configuration(void)
 {
   NVIC_InitTypeDef NVIC_InitStructure;
 //  NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0000);
-  NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x4000);
+  NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x7800);
 
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 
