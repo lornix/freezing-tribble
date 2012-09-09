@@ -18,6 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_lib.h"
 #include "stm32f10x_it.h"
+#include "Interface.h"
 
 /* Private typedef -----------------------------------------------------------*/
 typedef void( *intfunc )( void );
@@ -30,6 +31,8 @@ typedef union { intfunc __fun; void * __ptr; } intvec_elem;
 /* Private functions ---------------------------------------------------------*/
 
 #define BootRAM (void *) 0xF108F85F /* workaround for booting from RAM */
+
+extern const APP_Interface APP_Offsets;
 
 #if defined(__IAR_SYSTEMS_ICC__)
 
@@ -65,7 +68,7 @@ const intvec_elem __vector_table[] __attribute__ ((section(".isr_vector"))) =
   MemManageException,
   BusFaultException,
   UsageFaultException,
-  0, 0, 0, 0,            /* Reserved */ 
+  (intfunc)&APP_Offsets, 0, 0, 0,            /* Reserved */ 
   SVCHandler,
   DebugMonitor,
   0,                      /* Reserved */
