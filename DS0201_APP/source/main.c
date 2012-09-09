@@ -24,7 +24,7 @@ void   main(void)
    if (pLib->Signature != LIB_SIGNATURE)  // incompatible library
      while (1); // halt, we can not display an error as we have no font table
 
-   NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0xC000);
+   NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x14C00);
    NVIC_Configuration();
 
 /*----------display APP version ----------*/
