@@ -60,6 +60,7 @@ void onesided(int nfill);
 /* Multiplication factors for Hanning window
  * Hanning[i] = 0.5 - 0.5 * cos(2 * PI * i/(64 - 1))
  * Use only half (The windows are symmetric) */		
+#if 0
 unsigned const short Hanning64[64] =
     {
       0x0000, 0x00A3, 0x028A, 0x05B0, 0x0A0D, 0x0F96, 0x163E, 0x1DF2,
@@ -67,6 +68,7 @@ unsigned const short Hanning64[64] =
       0x8331, 0x8FEA, 0x9C7C, 0xA8C4, 0xB4A5, 0xC000, 0xCAB8, 0xD4B2,
       0xDDD5, 0xE608, 0xED39, 0xF353, 0xF848, 0xFC0B, 0xFE92, 0xFFD7,
     };
+#endif
 
 unsigned const short Hanning256[256] =
    {
@@ -88,6 +90,7 @@ unsigned const short Hanning256[256] =
       0xFDD2, 0xFE5D, 0xFED4, 0xFF37, 0xFF86, 0xFFC2, 0xFFEA, 0xFFFE
       };
 
+#if 0
 unsigned const short Hanning1024[1024] =
 {
      0x0000, 0x0001, 0x0002, 0x0006, 0x000A, 0x000F, 0x0016, 0x001E, 0x0028, 0x0032, 
@@ -142,6 +145,7 @@ unsigned const short Hanning1024[1024] =
      0xFEE3, 0xFEFD, 0xFF15, 0xFF2D, 0xFF43, 0xFF58, 0xFF6C, 0xFF7E, 0xFF8F, 0xFF9F, 
      0xFFAE, 0xFFBC, 0xFFC8, 0xFFD3, 0xFFDD, 0xFFE6, 0xFFED, 0xFFF3, 0xFFF8, 0xFFFC, 
      0xFFFF, 0xFFFF};
+#endif
 
 /*******************************************************************************
  Function Name : Mark_Trig
@@ -689,9 +693,7 @@ void Calculate_FFT( void )
   for ( i = 0; i < NP / 2; i++)
   {
     // Hanning value between 0..65535 instead of 0..1
-    if (NP == 64) factor = Hanning64[i]; 
     if (NP == 256) factor = Hanning256[i]; 
-    if (NP == 1024) factor = Hanning1024[i];     
     FFT_in[i]     = ( FFT_in[i]     * factor ) >> 16;
     FFT_in[iback] = ( FFT_in[iback] * factor ) >> 16;
     iback--;
@@ -702,9 +704,7 @@ void Calculate_FFT( void )
   {
     FFT_in[i] = (FFT_in[i]) << 16 ; 
   }
-  if (NP == 64) cr4_fft_64_stm32(FFT_out, FFT_in, NP);
   if (NP == 256) cr4_fft_256_stm32(FFT_out, FFT_in, NP);
-  if (NP == 1024) cr4_fft_1024_stm32(FFT_out, FFT_in, NP);
 
   powerMag(NP, "1SIDED");
   Draw_FFT();
