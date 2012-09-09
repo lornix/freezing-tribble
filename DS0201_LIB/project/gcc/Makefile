@@ -28,7 +28,7 @@ LNKSCRIPT = stm32f10x_flash_offset.ld
 MFLAGS  = -mcpu=cortex-m3 -mthumb
 ASFLAGS = $(MFLAGS)
 CFLAGS  = $(MFLAGS) $(INCLUDES) -c -fno-common -Os -g
-LFLAGS  = $(MFLAGS) -T $(LNKSCRIPT) -nostartfiles
+LFLAGS  = $(MFLAGS) -T $(LNKSCRIPT) -nostartfiles -Wl,-Map=$(NAME).map
 
 CSRC = \
        $(PRJ)/source/stm32f10x_vector.c \
@@ -77,4 +77,4 @@ binaries: $(NAME).elf
 
 clean:
 	rm -f *.o $(PRJ)/source/*.o $(STM_LIB)/src/*.o $(USB_LIB)/src/*.o \
-	    $(NAME).elf $(NAME).bin $(NAME).hex $(NAME).lst
+	    $(NAME).elf $(NAME).bin $(NAME).hex $(NAME).lst $(NAME).map
