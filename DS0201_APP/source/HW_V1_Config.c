@@ -8,6 +8,14 @@ File Name: HW_V1_config.c
 #include "HW_V1_Config.h"
 #include <stdlib.h>
 
+#if defined(__IAR_SYSTEMS_ICC__)
+# if (__VER__ < 500)
+#  define __iar_program_start __program_start
+# endif
+#else
+# define __iar_program_start Reset_Handler
+#endif /* IAR */
+
 void __iar_program_start(void);
 
 const APP_Interface APP_Offsets = {
