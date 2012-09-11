@@ -17,18 +17,22 @@ void   main(void)
    unsigned short i;
 
 /*--------------initialize the hardware-----------*/
+   pLib = (LIB_Interface *)*(u32 *)(LIB_VECTORS + 7 * 4);
+   if (pLib->Signature != LIB_SIGNATURE)  // incompatible library
+     while (1); // halt, we can not display an error as we have no font table
+
    NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0xC000);
    NVIC_Configuration();
 
 /*----------display APP version ----------*/
-   Display_Str(168, 23, YEL, PRN, "APP ver 3.11");
+   Display_Str(168, 23, YEL, PRN, "APP ver 3.13");
    frm_col = FRM_COLOR;
    
    Delayms(2000);
    //WaitForKey();
  
    for (i = 0; i < sizeof(Ref_Buffer); i++)
-      Ref_Buffer[i] = __Get_Ref_Wave(i);
+      Ref_Buffer[i] = pLib->Get_Ref_Wave(i);
    
 /*--------initialize the display --------*/
 

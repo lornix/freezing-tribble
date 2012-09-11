@@ -37,7 +37,7 @@ char FAT_Info(void)
     unsigned short RsvdSecCnt, FAT_Size, DIR_Size;
    
     // read partition table
-    if (__MSD_ReadBlock(F_Buff, 0, 512))
+    if (pLib->MSD_ReadBlock(F_Buff, 0, 512))
        return 0xFF; // Disk error!
 
     // find first sector in first partition
@@ -45,7 +45,7 @@ char FAT_Info(void)
        + (F_Buff[0x1C7] << 8) + F_Buff[0x1C6];
     DiskStart = DiskStart * 512;
     // read first sector in partition (FAT table)
-    if (__MSD_ReadBlock(F_Buff, DiskStart, 512))
+    if (pLib->MSD_ReadBlock(F_Buff, DiskStart, 512))
        return 0xFF; // Disk error!
 
    SectorSize = (F_Buff[0x0C] << 8) + F_Buff[0x0B];
@@ -69,11 +69,6 @@ char FAT_Info(void)
       FDT_Start = Root_Addr + (FDT_Cluster - 2) * SecPerClus * SectorSize;
    }
 
-//   Display_Info(8, 65, "SectorSize", SectorSize);
-//   Display_Info(8, 50, "FAT1_Addr", FAT1_Addr);
-//   Display_Info(8, 35, "DiskStart", DiskStart);
-//   Display_Info(8, 20, "Root_Addr", Root_Addr);
-
    return 0; // Disk ok!
 
 }
@@ -95,7 +90,7 @@ unsigned char SetClusterNext(void)
     i = ClusterNum % (512 / 4) * 4;
   }
   
-  if (__MSD_ReadBlock(F_Buff, addr, 512))
+  if (pLib->MSD_ReadBlock(F_Buff, addr, 512))
      return 0xff;
 
   if (FAT16) {
@@ -109,12 +104,6 @@ unsigned char SetClusterNext(void)
     File_Addr = Root_Addr + (ClusterNum - 2) * SecPerClus * SectorSize;
   }
 
-//  Display_Info(8, 65, "File_Addr", File_Addr);
-//  Display_Info(8, 50, "Root_Addr", Root_Addr);
-//  Display_Info(8, 35, "ClusterNum", ClusterNum);
-//  Display_Info(8, 20, "SecPerClus", SecPerClus);
-//  WaitForKey();
-  
   return 0;
 }
 
@@ -138,12 +127,12 @@ Description : Update directory timestamp
 *******************************************************************************/
 char DirTouch(void)
 {
-  if (__MSD_ReadBlock(F_Buff, Dir_Addr, 512))
+  if (pLib->MSD_ReadBlock(F_Buff, Dir_Addr, 512))
      return 0xff;
   
   F_Buff[Dir_Offset + 0x16] += 1;
 
-  return __MSD_WriteBlock(F_Buff, Dir_Addr, 512);
+  return pLib->MSD_WriteBlock(F_Buff, Dir_Addr, 512);
 }
 
 /*******************************************************************************
@@ -165,7 +154,7 @@ char Open_File(unsigned const char *name, unsigned char *num, unsigned const cha
         Dir_Addr = File_Addr;
 
       Dir_Addr += n * 512;
-      if (__MSD_ReadBlock(F_Buff, Dir_Addr, 512))
+      if (pLib->MSD_ReadBlock(F_Buff, Dir_Addr, 512))
          return 0xff; // Read Sector fail
 
       for (i = 0; i < 512; i += 32)
@@ -187,11 +176,6 @@ char Open_File(unsigned const char *name, unsigned char *num, unsigned const cha
                           + (F_Buff[i + 0x1B] << 8) + F_Buff[i + 0x1A];
                File_Addr = Root_Addr + (ClusterNum - 2) * SecPerClus * SectorSize;
             }
-
-//  Display_Info(8, 65, "File_Addr", File_Addr);
-//  Display_Info(8, 50, "Root_Addr", Root_Addr);
-//  Display_Info(8, 35, "ClusterNum", ClusterNum);
-//  Display_Info(8, 20, "SecPerClus", SecPerClus);
 
             Dir_Offset = i;
             return 0; // Open BMP File ok!
@@ -233,7 +217,7 @@ char     Writ_BMP_File(void)
          i += 2;
          if (i >= 512)
          { // Buffer full
-            if (__MSD_WriteBlock(F_Buff, File_Addr, 512))
+            if (pLib->MSD_WriteBlock(F_Buff, File_Addr, 512))
                return 0xFF; // File Write Error
 
             i = 0;
@@ -248,10 +232,9 @@ char     Writ_BMP_File(void)
       }
    }
    if (i > 0)
-     rval = __MSD_WriteBlock(F_Buff, File_Addr, 512);
+     rval = pLib->MSD_WriteBlock(F_Buff, File_Addr, 512);
    
-   //DirTouch();
-   __SD_Set_Changed();
+   pLib->SD_Set_Changed();
    return rval;
 }
 /*******************************************************************************
@@ -260,7 +243,7 @@ Description : read the specified file
 *******************************************************************************/
 char            Read_File(void)
 {
-   return __MSD_ReadBlock(F_Buff, File_Addr, 512);
+   return pLib->MSD_ReadBlock(F_Buff, File_Addr, 512);
 }
 /*******************************************************************************
 Function Name : Write_File
@@ -268,9 +251,9 @@ Description : write the specified file and mark the sequence number
 *******************************************************************************/
 char            Write_File(void)
 {
-   char rval = __MSD_WriteBlock(F_Buff, File_Addr, 512);
+   char rval = pLib->MSD_WriteBlock(F_Buff, File_Addr, 512);
    
-   __SD_Set_Changed();
+   pLib->SD_Set_Changed();
    return rval;
 }
 

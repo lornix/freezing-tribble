@@ -6,12 +6,28 @@
 #include "stm32f10x_systick.h"
 #include "HW_V1_Config.h"
 #include "usb_lib.h"
+#include "usb_istr.h"
 #include "msd.h"
+#include "Lcd.h"
+#include "memory.h"
 
 volatile unsigned short Delay_Counter;
 volatile unsigned char Key_Buffer;
 
 ErrorStatus HSEStartUpStatus;
+
+const LIB_Interface LIB_Offsets = {
+  LIB_SIGNATURE,
+  USB_Istr,       // void USB_Istr(void)
+  CTR_HP,         // void CTR_HP(void)
+  SD_Set_Changed, // void SD_Set_Changed(void)
+  MSD_WriteBlock, // u8 MSD_WriteBlock(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
+  MSD_ReadBlock,  // u8 MSD_ReadBlock(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead)
+  Get_Font_8x14,  // u16 *GetFont_8x14(u8 chr, u8 row)
+  Get_Ref_Wave    // u8 *Get_Ref_Wave(u16 idx)
+};
+
+APP_Interface *pApp;
 
 /*******************************************************************************
 * System Clock Configuration  

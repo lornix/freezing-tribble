@@ -146,12 +146,12 @@ void            ADC_IRQHandler(void)
 
 void            USB_HP_CAN_TX_IRQHandler(void)
 {
-   __CTR_HP();
+   pLib->CTR_HP();
 }
 
 void            USB_LP_CAN_RX0_IRQHandler(void)
 {
-   __USB_Istr();
+   pLib->USB_Istr();
 }
 
 void            CAN_RX1_IRQHandler(void)
