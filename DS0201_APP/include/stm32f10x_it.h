@@ -1,5 +1,5 @@
 /*******************************************************************************
-File Name: stm32f10x_it.h  
+File Name: stm32f10x_it.h
 *******************************************************************************/
 
 #ifndef __STM32F10x_IT_H
@@ -60,6 +60,6 @@ void            EXTI15_10_IRQHandler(void);
 void            RTCAlarm_IRQHandler(void);
 void            USBWakeUp_IRQHandler(void);
 
-#endif 
+#endif
 
 /********************************* END OF FILE ********************************/

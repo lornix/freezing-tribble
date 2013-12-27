@@ -72,7 +72,7 @@ typedef struct _MainMenuType {
 
 typedef struct _FieldType {
   unsigned const short x;     // x-position, pixels
-  unsigned const short y;     // y-position, pixels 
+  unsigned const short y;     // y-position, pixels
   unsigned const char width;  // pixel width
 } FieldType;
 

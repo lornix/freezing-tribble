@@ -30,5 +30,5 @@ typedef struct {
 } LIB_Interface;
 
 #endif
-                       
+
 //****************************** END OF FILE ***********************************

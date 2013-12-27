@@ -159,10 +159,10 @@ void NVIC_Configuration(void);
 void Set_Range(char Range);
 void Set_Base(char Base);
 void ADC_Stop(void);
-void ADC_Start(void); 
-void Set_Y_Pos(unsigned short i, unsigned short Y0); 
-char Test_USB_ON(void); 
-char SD_Card_ON(void); 
+void ADC_Start(void);
+void Set_Y_Pos(unsigned short i, unsigned short Y0);
+char Test_USB_ON(void);
+char SD_Card_ON(void);
 
 void Delayms(unsigned short delay);
 void WaitForKey(void);
@@ -173,5 +173,5 @@ extern volatile unsigned short Delay_Counter;
 extern volatile unsigned short Refresh_Counter;
 extern volatile unsigned char Key_Buffer;
 
-#endif 
+#endif
 /****************************** END OF FILE ***********************************/

@@ -17,7 +17,7 @@ extern unsigned char Signal_Buffer[300];
 
 extern volatile unsigned char ScanSegment, ScanMode;
 extern unsigned char Sync;
-extern unsigned char SyncSegment; 
+extern unsigned char SyncSegment;
 
 extern unsigned char MeFr, MeDC;
 extern int           Frequency, Duty, Vpp, Vrms, Vavg, Vdc, Vmin, Vmax;
