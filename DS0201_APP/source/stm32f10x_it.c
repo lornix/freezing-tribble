@@ -1,5 +1,5 @@
 /*******************************************************************************
-File Name: stm32f10x_it.c  
+File Name: stm32f10x_it.c
 *******************************************************************************/
 #include "stm32f10x_it.h"
 #include "HW_V1_Config.h"
@@ -103,7 +103,7 @@ void            DMAChannel1_IRQHandler(void)
     unsigned char ss = ScanSegment;
 
     DMA_IFCR = 0x00000002; // clear transfer complete interrupt for DMA channel1
-  
+
     if (ss >= 2) ss = 0;
     else ss++;
     if (ScanMode <= 1) ScanMode = 2;  // advance to trig-fetch
@@ -188,7 +188,7 @@ void            TIM2_IRQHandler(void)
 /****************************************************************************
 Function Name : TIM3_IRQHandler
 Description : TIMER 3 interrupt request handle,
-              its mainly uesed for system clock delay 
+              its mainly uesed for system clock delay
 	      and detect the key periodically
 ******************************************************************************/
 void            TIM3_IRQHandler(void)
@@ -201,13 +201,13 @@ void            TIM3_IRQHandler(void)
 
    if (Delay_Counter)
       Delay_Counter--;
-   
+
    if (Refresh_Counter)
       Refresh_Counter--;
-   
+
    if (Counter_20ms)
       Counter_20ms--;
-  
+
    else { // check key press every 20ms, battery status every 100ms
       Counter_20ms = 20;
 
@@ -229,10 +229,10 @@ void            TIM3_IRQHandler(void)
         }
         Bat_Counter = 0;
       }
-      
-      if (Key_Wait_Counter) 
+
+      if (Key_Wait_Counter)
         Key_Wait_Counter--;
-      
+
       if (!(GPIOD_IDR & KEY_M)) KeyCode = KEYCODE_M;
       else if (!(GPIOA_IDR & KEY_B)) KeyCode = KEYCODE_B;
       else if (!(GPIOA_IDR & KEY_PLAY)) KeyCode = KEYCODE_PLAY;
@@ -240,7 +240,7 @@ void            TIM3_IRQHandler(void)
       else if (!(GPIOD_IDR & KEY_DOWN)) KeyCode = KEYCODE_DOWN;
       else if (!(GPIOA_IDR & KEY_LEFT)) KeyCode = KEYCODE_LEFT;
       else if (!(GPIOA_IDR & KEY_RIGHT)) KeyCode = KEYCODE_RIGHT;
-    
+
       if (KeyCode) {
         if (KeyCode == KeyCode_Last) {
           if (Key_Wait_Counter == 0) {

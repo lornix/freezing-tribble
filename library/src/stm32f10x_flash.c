@@ -25,11 +25,11 @@
 
 #ifdef _FLASH_PROG
 /* Flash Access Control Register bits */
-#define ACR_PRFTBS_Mask          ((u32)0x00000020) 
+#define ACR_PRFTBS_Mask          ((u32)0x00000020)
 
 /* Flash Control Register bits */
 #define CR_PG_Set                ((u32)0x00000001)
-#define CR_PG_Reset              ((u32)0x00001FFE) 
+#define CR_PG_Reset              ((u32)0x00001FFE)
 
 #define CR_PER_Set               ((u32)0x00000002)
 #define CR_PER_Reset             ((u32)0x00001FFD)
@@ -44,7 +44,7 @@
 #define CR_OPTER_Reset           ((u32)0x00001FDF)
 
 #define CR_STRT_Set              ((u32)0x00000040)
-							 
+
 #define CR_LOCK_Set              ((u32)0x00000080)
 
 /* FLASH Mask */
@@ -59,7 +59,7 @@
 #define FLASH_KEY1               ((u32)0x45670123)
 #define FLASH_KEY2               ((u32)0xCDEF89AB)
 
-/* Delay definition */   
+/* Delay definition */
 #define EraseTimeout             ((u32)0x00000FFF)
 #define ProgramTimeout           ((u32)0x0000000F)
 #endif
@@ -87,7 +87,7 @@ void FLASH_SetLatency(u32 FLASH_Latency)
 {
   /* Check the parameters */
   assert_param(IS_FLASH_LATENCY(FLASH_Latency));
-  
+
   /* Sets the Latency value */
   FLASH->ACR &= ACR_LATENCY_Mask;
   FLASH->ACR |= FLASH_Latency;
@@ -107,7 +107,7 @@ void FLASH_HalfCycleAccessCmd(u32 FLASH_HalfCycleAccess)
 {
   /* Check the parameters */
   assert_param(IS_FLASH_HALFCYCLEACCESS_STATE(FLASH_HalfCycleAccess));
-  
+
   /* Enable or disable the Half cycle access */
   FLASH->ACR &= ACR_HLFCYA_Mask;
   FLASH->ACR |= FLASH_HalfCycleAccess;
@@ -127,7 +127,7 @@ void FLASH_PrefetchBufferCmd(u32 FLASH_PrefetchBuffer)
 {
   /* Check the parameters */
   assert_param(IS_FLASH_PREFETCHBUFFER_STATE(FLASH_PrefetchBuffer));
-  
+
   /* Enable or disable the Prefetch Buffer */
   FLASH->ACR &= ACR_PRFTBE_Mask;
   FLASH->ACR |= FLASH_PrefetchBuffer;
@@ -166,8 +166,8 @@ void FLASH_Lock(void)
 * Description    : Erases a specified FLASH page.
 * Input          : - Page_Address: The page address to be erased.
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1, 
-*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4, 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1,
+*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4,
 *                  FLASH_TIMEOUT=5.
 *******************************************************************************/
 FLASH_Status FLASH_ErasePage(u32 Page_Address)
@@ -179,14 +179,14 @@ FLASH_Status FLASH_ErasePage(u32 Page_Address)
 
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation(EraseTimeout);
-  
+
   if(status == FLASH_COMPLETE)
-  { 
+  {
     /* if the previous operation is completed, proceed to erase the page */
     FLASH->CR|= CR_PER_Set;
-    FLASH->AR = Page_Address; 
+    FLASH->AR = Page_Address;
     FLASH->CR|= CR_STRT_Set;
-    
+
     /* Wait for last operation to be completed */
     status = FLASH_WaitForLastOperation(EraseTimeout);
 
@@ -205,8 +205,8 @@ FLASH_Status FLASH_ErasePage(u32 Page_Address)
 * Description    : Erases all FLASH pages.
 * Input          : None
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1, 
-*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4, 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1,
+*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4,
 *                  FLASH_TIMEOUT=5.
 *******************************************************************************/
 FLASH_Status FLASH_EraseAllPages(void)
@@ -215,13 +215,13 @@ FLASH_Status FLASH_EraseAllPages(void)
 
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation(EraseTimeout);
-  
+
   if(status == FLASH_COMPLETE)
   {
     /* if the previous operation is completed, proceed to erase all pages */
      FLASH->CR |= CR_MER_Set;
      FLASH->CR |= CR_STRT_Set;
-    
+
     /* Wait for last operation to be completed */
     status = FLASH_WaitForLastOperation(EraseTimeout);
 
@@ -230,7 +230,7 @@ FLASH_Status FLASH_EraseAllPages(void)
       /* if the erase operation is completed, disable the MER Bit */
       FLASH->CR &= CR_MER_Reset;
     }
-  }	   
+  }
   /* Return the Erase Status */
   return status;
 }
@@ -240,14 +240,14 @@ FLASH_Status FLASH_EraseAllPages(void)
 * Description    : Erases the FLASH option bytes.
 * Input          : None
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1, 
-*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4, 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1,
+*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4,
 *                  FLASH_TIMEOUT=5.
 *******************************************************************************/
 FLASH_Status FLASH_EraseOptionBytes(void)
 {
   FLASH_Status status = FLASH_COMPLETE;
-  
+
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation(EraseTimeout);
 
@@ -256,28 +256,28 @@ FLASH_Status FLASH_EraseOptionBytes(void)
     /* Authorize the small information block programming */
     FLASH->OPTKEYR = FLASH_KEY1;
     FLASH->OPTKEYR = FLASH_KEY2;
-    
+
     /* if the previous operation is completed, proceed to erase the option bytes */
     FLASH->CR |= CR_OPTER_Set;
     FLASH->CR |= CR_STRT_Set;
 
     /* Wait for last operation to be completed */
     status = FLASH_WaitForLastOperation(EraseTimeout);
-    
+
     if(status == FLASH_COMPLETE)
     {
       /* if the erase operation is completed, disable the OPTER Bit */
       FLASH->CR &= CR_OPTER_Reset;
-       
+
       /* Enable the Option Bytes Programming operation */
       FLASH->CR |= CR_OPTPG_Set;
 
       /* Enable the readout access */
-      OB->RDP= RDP_Key; 
+      OB->RDP= RDP_Key;
 
       /* Wait for last operation to be completed */
       status = FLASH_WaitForLastOperation(ProgramTimeout);
- 
+
       if(status != FLASH_BUSY)
       {
         /* if the program operation is completed, disable the OPTPG Bit */
@@ -291,7 +291,7 @@ FLASH_Status FLASH_EraseOptionBytes(void)
         /* Disable the OPTPG Bit */
         FLASH->CR &= CR_OPTPG_Reset;
       }
-    }  
+    }
   }
   /* Return the erase status */
   return status;
@@ -303,8 +303,8 @@ FLASH_Status FLASH_EraseOptionBytes(void)
 * Input          : - Address: specifies the address to be programmed.
 *                  - Data: specifies the data to be programmed.
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1, 
-*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4, 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1,
+*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4,
 *                  FLASH_TIMEOUT=5.
 *******************************************************************************/
 FLASH_Status FLASH_ProgramWord(u32 Address, u32 Data)
@@ -316,27 +316,27 @@ FLASH_Status FLASH_ProgramWord(u32 Address, u32 Data)
 
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation(ProgramTimeout);
-  
+
   if(status == FLASH_COMPLETE)
   {
-    /* if the previous operation is completed, proceed to program the new first 
+    /* if the previous operation is completed, proceed to program the new first
     half word */
     FLASH->CR |= CR_PG_Set;
-  
+
     *(vu16*)Address = (u16)Data;
 
     /* Wait for last operation to be completed */
     status = FLASH_WaitForLastOperation(ProgramTimeout);
- 
+
     if(status == FLASH_COMPLETE)
     {
-      /* if the previous operation is completed, proceed to program the new second 
+      /* if the previous operation is completed, proceed to program the new second
       half word */
       *(vu16*)(Address + 2) = Data >> 16;
-    
+
       /* Wait for last operation to be completed */
       status = FLASH_WaitForLastOperation(ProgramTimeout);
-        
+
       if(status != FLASH_BUSY)
       {
         /* Disable the PG Bit */
@@ -362,8 +362,8 @@ FLASH_Status FLASH_ProgramWord(u32 Address, u32 Data)
 * Input          : - Address: specifies the address to be programmed.
 *                  - Data: specifies the data to be programmed.
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1, 
-*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4, 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1,
+*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4,
 *                  FLASH_TIMEOUT=5.
 *******************************************************************************/
 FLASH_Status FLASH_ProgramHalfWord(u32 Address, u16 Data)
@@ -375,12 +375,12 @@ FLASH_Status FLASH_ProgramHalfWord(u32 Address, u16 Data)
 
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation(ProgramTimeout);
-  
+
   if(status == FLASH_COMPLETE)
   {
     /* if the previous operation is completed, proceed to program the new data */
     FLASH->CR |= CR_PG_Set;
-  
+
     *(vu16*)Address = Data;
     /* Wait for last operation to be completed */
     status = FLASH_WaitForLastOperation(ProgramTimeout);
@@ -390,7 +390,7 @@ FLASH_Status FLASH_ProgramHalfWord(u32 Address, u16 Data)
       /* if the program operation is completed, disable the PG Bit */
       FLASH->CR &= CR_PG_Reset;
     }
-  } 
+  }
   /* Return the Program Status */
   return status;
 }
@@ -399,11 +399,11 @@ FLASH_Status FLASH_ProgramHalfWord(u32 Address, u16 Data)
 * Function Name  : FLASH_ProgramOptionByteData
 * Description    : Programs a half word at a specified Option Byte Data address.
 * Input          : - Address: specifies the address to be programmed.
-*                    This parameter can be 0x1FFFF804 or 0x1FFFF806. 
+*                    This parameter can be 0x1FFFF804 or 0x1FFFF806.
 *                  - Data: specifies the data to be programmed.
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1, 
-*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4, 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY=1,
+*                  FLASH_ERROR_PG=2, FLASH_ERROR_WRP=3, FLASH_COMPLETE=4,
 *                  FLASH_TIMEOUT=5.
 *******************************************************************************/
 FLASH_Status FLASH_ProgramOptionByteData(u32 Address, u8 Data)
@@ -422,9 +422,9 @@ FLASH_Status FLASH_ProgramOptionByteData(u32 Address, u8 Data)
     FLASH->OPTKEYR = FLASH_KEY2;
 
     /* Enables the Option Bytes Programming operation */
-    FLASH->CR |= CR_OPTPG_Set; 
+    FLASH->CR |= CR_OPTPG_Set;
     *(vu16*)Address = Data;
-    
+
     /* Wait for last operation to be completed */
     status = FLASH_WaitForLastOperation(ProgramTimeout);
 
@@ -433,42 +433,42 @@ FLASH_Status FLASH_ProgramOptionByteData(u32 Address, u8 Data)
       /* if the program operation is completed, disable the OPTPG Bit */
       FLASH->CR &= CR_OPTPG_Reset;
     }
-  }    
+  }
   /* Return the Option Byte Data Program Status */
-  return status;      
+  return status;
 }
 
 /*******************************************************************************
 * Function Name  : FLASH_EnableWriteProtection
 * Description    : Write protects the desired pages
-* Input          : - FLASH_Pages: specifies the address of the pages to be 
+* Input          : - FLASH_Pages: specifies the address of the pages to be
 *                    write protected. This parameter can be:
-*                    - A value between FLASH_WRProt_Pages0to3 and 
-*                      FLASH_WRProt_Pages124to127 
+*                    - A value between FLASH_WRProt_Pages0to3 and
+*                      FLASH_WRProt_Pages124to127
 *                    - FLASH_WRProt_AllPages
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY, 
-*                  FLASH_ERROR_PG or FLASH_ERROR_WRP or FLASH_COMPLETE or 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY,
+*                  FLASH_ERROR_PG or FLASH_ERROR_WRP or FLASH_COMPLETE or
 *                  FLASH_TIMEOUT.
 *******************************************************************************/
 FLASH_Status FLASH_EnableWriteProtection(u32 FLASH_Pages)
 {
   u16 WRP0_Data = 0xFFFF, WRP1_Data = 0xFFFF, WRP2_Data = 0xFFFF, WRP3_Data = 0xFFFF;
-  
+
   FLASH_Status status = FLASH_COMPLETE;
-  
+
   /* Check the parameters */
   assert_param(IS_FLASH_WRPROT_PAGE(FLASH_Pages));
-  
+
   FLASH_Pages = (u32)(~FLASH_Pages);
   WRP0_Data = (vu16)(FLASH_Pages & WRP0_Mask);
   WRP1_Data = (vu16)((FLASH_Pages & WRP1_Mask) >> 8);
   WRP2_Data = (vu16)((FLASH_Pages & WRP2_Mask) >> 16);
   WRP3_Data = (vu16)((FLASH_Pages & WRP3_Mask) >> 24);
-  
+
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation(ProgramTimeout);
-  
+
   if(status == FLASH_COMPLETE)
   {
     /* Authorizes the small information block programming */
@@ -479,14 +479,14 @@ FLASH_Status FLASH_EnableWriteProtection(u32 FLASH_Pages)
     if(WRP0_Data != 0xFF)
     {
       OB->WRP0 = WRP0_Data;
-      
+
       /* Wait for last operation to be completed */
       status = FLASH_WaitForLastOperation(ProgramTimeout);
     }
     if((status == FLASH_COMPLETE) && (WRP1_Data != 0xFF))
     {
       OB->WRP1 = WRP1_Data;
-      
+
       /* Wait for last operation to be completed */
       status = FLASH_WaitForLastOperation(ProgramTimeout);
     }
@@ -494,40 +494,40 @@ FLASH_Status FLASH_EnableWriteProtection(u32 FLASH_Pages)
     if((status == FLASH_COMPLETE) && (WRP2_Data != 0xFF))
     {
       OB->WRP2 = WRP2_Data;
-      
+
       /* Wait for last operation to be completed */
       status = FLASH_WaitForLastOperation(ProgramTimeout);
     }
-    
+
     if((status == FLASH_COMPLETE)&& (WRP3_Data != 0xFF))
     {
       OB->WRP3 = WRP3_Data;
-     
+
       /* Wait for last operation to be completed */
       status = FLASH_WaitForLastOperation(ProgramTimeout);
     }
-          
+
     if(status != FLASH_BUSY)
     {
       /* if the program operation is completed, disable the OPTPG Bit */
       FLASH->CR &= CR_OPTPG_Reset;
     }
-  } 
+  }
   /* Return the write protection operation Status */
-  return status;       
+  return status;
 }
 
 /*******************************************************************************
 * Function Name  : FLASH_ReadOutProtection
 * Description    : Enables or disables the read out protection.
-*                  If the user has already programmed the other option bytes before 
-*                  calling this function, he must re-program them since this 
+*                  If the user has already programmed the other option bytes before
+*                  calling this function, he must re-program them since this
 *                  function erases all option bytes.
 * Input          : - Newstate: new state of the ReadOut Protection.
 *                    This parameter can be: ENABLE or DISABLE.
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY, 
-*                  FLASH_ERROR_PG or FLASH_ERROR_WRP or FLASH_COMPLETE or 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY,
+*                  FLASH_ERROR_PG or FLASH_ERROR_WRP or FLASH_COMPLETE or
 *                  FLASH_TIMEOUT.
 *******************************************************************************/
 FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState)
@@ -557,7 +557,7 @@ FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState)
       FLASH->CR &= CR_OPTER_Reset;
 
       /* Enable the Option Bytes Programming operation */
-      FLASH->CR |= CR_OPTPG_Set; 
+      FLASH->CR |= CR_OPTPG_Set;
 
       if(NewState != DISABLE)
       {
@@ -565,19 +565,19 @@ FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState)
       }
       else
       {
-        OB->RDP = RDP_Key;  
+        OB->RDP = RDP_Key;
       }
 
       /* Wait for last operation to be completed */
-      status = FLASH_WaitForLastOperation(EraseTimeout); 
-    
+      status = FLASH_WaitForLastOperation(EraseTimeout);
+
       if(status != FLASH_BUSY)
       {
         /* if the program operation is completed, disable the OPTPG Bit */
         FLASH->CR &= CR_OPTPG_Reset;
       }
     }
-    else 
+    else
     {
       if(status != FLASH_BUSY)
       {
@@ -587,9 +587,9 @@ FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState)
     }
   }
   /* Return the protection operation Status */
-  return status;      
+  return status;
 }
-  	
+
 /*******************************************************************************
 * Function Name  : FLASH_UserOptionByteConfig
 * Description    : Programs the FLASH User Option Byte: IWDG_SW / RST_STOP /
@@ -607,13 +607,13 @@ FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState)
 *                     - OB_STDBY_NoRST: No reset generated when entering in STANDBY
 *                     - OB_STDBY_RST: Reset generated when entering in STANDBY
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY, 
-*                  FLASH_ERROR_PG or FLASH_ERROR_WRP or FLASH_COMPLETE or 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY,
+*                  FLASH_ERROR_PG or FLASH_ERROR_WRP or FLASH_COMPLETE or
 *                  FLASH_TIMEOUT.
 *******************************************************************************/
 FLASH_Status FLASH_UserOptionByteConfig(u16 OB_IWDG, u16 OB_STOP, u16 OB_STDBY)
 {
-  FLASH_Status status = FLASH_COMPLETE; 
+  FLASH_Status status = FLASH_COMPLETE;
 
   /* Check the parameters */
   assert_param(IS_OB_IWDG_SOURCE(OB_IWDG));
@@ -623,17 +623,17 @@ FLASH_Status FLASH_UserOptionByteConfig(u16 OB_IWDG, u16 OB_STOP, u16 OB_STDBY)
   /* Authorize the small information block programming */
   FLASH->OPTKEYR = FLASH_KEY1;
   FLASH->OPTKEYR = FLASH_KEY2;
-  
+
   /* Wait for last operation to be completed */
   status = FLASH_WaitForLastOperation(ProgramTimeout);
-  
+
   if(status == FLASH_COMPLETE)
-  {  
+  {
     /* Enable the Option Bytes Programming operation */
-    FLASH->CR |= CR_OPTPG_Set; 
-           
-    OB->USER = ( OB_IWDG | OB_STOP |OB_STDBY) | (u16)0xF8; 
-  
+    FLASH->CR |= CR_OPTPG_Set;
+
+    OB->USER = ( OB_IWDG | OB_STOP |OB_STDBY) | (u16)0xF8;
+
     /* Wait for last operation to be completed */
     status = FLASH_WaitForLastOperation(ProgramTimeout);
 
@@ -642,7 +642,7 @@ FLASH_Status FLASH_UserOptionByteConfig(u16 OB_IWDG, u16 OB_STOP, u16 OB_STDBY)
       /* if the program operation is completed, disable the OPTPG Bit */
       FLASH->CR &= CR_OPTPG_Reset;
     }
-  }    
+  }
   /* Return the Option Byte program Status */
   return status;
 }
@@ -676,7 +676,7 @@ u32 FLASH_GetWriteProtectionOptionByte(void)
 
 /*******************************************************************************
 * Function Name  : FLASH_GetReadOutProtectionStatus
-* Description    : Checks whether the FLASH Read Out Protection Status is set 
+* Description    : Checks whether the FLASH Read Out Protection Status is set
 *                  or not.
 * Input          : None
 * Output         : None
@@ -707,7 +707,7 @@ FlagStatus FLASH_GetReadOutProtectionStatus(void)
 FlagStatus FLASH_GetPrefetchBufferStatus(void)
 {
   FlagStatus bitstatus = RESET;
-  
+
   if ((FLASH->ACR & ACR_PRFTBS_Mask) != (u32)RESET)
   {
     bitstatus = SET;
@@ -717,24 +717,24 @@ FlagStatus FLASH_GetPrefetchBufferStatus(void)
     bitstatus = RESET;
   }
   /* Return the new state of FLASH Prefetch Buffer Status (SET or RESET) */
-  return bitstatus; 
+  return bitstatus;
 }
 
 /*******************************************************************************
 * Function Name  : FLASH_ITConfig
 * Description    : Enables or disables the specified FLASH interrupts.
-* Input          : - FLASH_IT: specifies the FLASH interrupt sources to be 
+* Input          : - FLASH_IT: specifies the FLASH interrupt sources to be
 *                    enabled or disabled.
 *                    This parameter can be any combination of the following values:
 *                       - FLASH_IT_ERROR: FLASH Error Interrupt
 *                       - FLASH_IT_EOP: FLASH end of operation Interrupt
 * Output         : None
-* Return         : None 
+* Return         : None
 *******************************************************************************/
 void FLASH_ITConfig(u16 FLASH_IT, FunctionalState NewState)
 {
   /* Check the parameters */
-  assert_param(IS_FLASH_IT(FLASH_IT)); 
+  assert_param(IS_FLASH_IT(FLASH_IT));
   assert_param(IS_FUNCTIONAL_STATE(NewState));
 
   if(NewState != DISABLE)
@@ -754,11 +754,11 @@ void FLASH_ITConfig(u16 FLASH_IT, FunctionalState NewState)
 * Description    : Checks whether the specified FLASH flag is set or not.
 * Input          : - FLASH_FLAG: specifies the FLASH flag to check.
 *                     This parameter can be one of the following values:
-*                    - FLASH_FLAG_BSY: FLASH Busy flag           
-*                    - FLASH_FLAG_PGERR: FLASH Program error flag       
-*                    - FLASH_FLAG_WRPRTERR: FLASH Write protected error flag      
-*                    - FLASH_FLAG_EOP: FLASH End of Operation flag           
-*                    - FLASH_FLAG_OPTERR:  FLASH Option Byte error flag     
+*                    - FLASH_FLAG_BSY: FLASH Busy flag
+*                    - FLASH_FLAG_PGERR: FLASH Program error flag
+*                    - FLASH_FLAG_WRPRTERR: FLASH Write protected error flag
+*                    - FLASH_FLAG_EOP: FLASH End of Operation flag
+*                    - FLASH_FLAG_OPTERR:  FLASH Option Byte error flag
 * Output         : None
 * Return         : The new state of FLASH_FLAG (SET or RESET).
 *******************************************************************************/
@@ -769,7 +769,7 @@ FlagStatus FLASH_GetFlagStatus(u16 FLASH_FLAG)
   /* Check the parameters */
   assert_param(IS_FLASH_GET_FLAG(FLASH_FLAG)) ;
 
-  if(FLASH_FLAG == FLASH_FLAG_OPTERR) 
+  if(FLASH_FLAG == FLASH_FLAG_OPTERR)
   {
     if((FLASH->OBR & FLASH_FLAG_OPTERR) != (u32)RESET)
     {
@@ -800,10 +800,10 @@ FlagStatus FLASH_GetFlagStatus(u16 FLASH_FLAG)
 * Description    : Clears the FLASH’s pending flags.
 * Input          : - FLASH_FLAG: specifies the FLASH flags to clear.
 *                    This parameter can be any combination of the following values:
-*                    - FLASH_FLAG_BSY: FLASH Busy flag           
-*                    - FLASH_FLAG_PGERR: FLASH Program error flag       
-*                    - FLASH_FLAG_WRPRTERR: FLASH Write protected error flag      
-*                    - FLASH_FLAG_EOP: FLASH End of Operation flag           
+*                    - FLASH_FLAG_BSY: FLASH Busy flag
+*                    - FLASH_FLAG_PGERR: FLASH Program error flag
+*                    - FLASH_FLAG_WRPRTERR: FLASH Write protected error flag
+*                    - FLASH_FLAG_EOP: FLASH End of Operation flag
 * Output         : None
 * Return         : None
 *******************************************************************************/
@@ -811,7 +811,7 @@ void FLASH_ClearFlag(u16 FLASH_FLAG)
 {
   /* Check the parameters */
   assert_param(IS_FLASH_CLEAR_FLAG(FLASH_FLAG)) ;
-  
+
   /* Clear the flags */
   FLASH->SR = FLASH_FLAG;
 }
@@ -821,24 +821,24 @@ void FLASH_ClearFlag(u16 FLASH_FLAG)
 * Description    : Returns the FLASH Status.
 * Input          : None
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY, 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY,
 *                  FLASH_ERROR_PG or FLASH_ERROR_WRP or FLASH_COMPLETE
 *******************************************************************************/
 FLASH_Status FLASH_GetStatus(void)
 {
   FLASH_Status flashstatus = FLASH_COMPLETE;
-  
-  if((FLASH->SR & FLASH_FLAG_BSY) == FLASH_FLAG_BSY) 
+
+  if((FLASH->SR & FLASH_FLAG_BSY) == FLASH_FLAG_BSY)
   {
     flashstatus = FLASH_BUSY;
   }
-  else 
-  {  
+  else
+  {
     if(FLASH->SR & FLASH_FLAG_PGERR)
-    { 
+    {
       flashstatus = FLASH_ERROR_PG;
     }
-    else 
+    else
     {
       if(FLASH->SR & FLASH_FLAG_WRPRTERR)
       {
@@ -859,14 +859,14 @@ FLASH_Status FLASH_GetStatus(void)
 * Description    : Waits for a Flash operation to complete or a TIMEOUT to occur.
 * Input          : - Timeout: FLASH progamming Timeout
 * Output         : None
-* Return         : FLASH Status: The returned value can be: FLASH_BUSY, 
-*                  FLASH_ERROR_PG or FLASH_ERROR_WRP or FLASH_COMPLETE or 
+* Return         : FLASH Status: The returned value can be: FLASH_BUSY,
+*                  FLASH_ERROR_PG or FLASH_ERROR_WRP or FLASH_COMPLETE or
 *                  FLASH_TIMEOUT.
 *******************************************************************************/
 FLASH_Status FLASH_WaitForLastOperation(u32 Timeout)
-{ 
+{
   FLASH_Status status = FLASH_COMPLETE;
-   
+
   /* Check for the Flash Status */
   status = FLASH_GetStatus();
 

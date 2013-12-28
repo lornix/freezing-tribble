@@ -23,7 +23,7 @@
 //========================== Forward function delclaratons =====================
 
 void LCD_WR_REG(unsigned short Reg, unsigned short Data);
-void LCD_Initial(void); 
+void LCD_Initial(void);
 void Point_SCR(unsigned short x0, unsigned short y0);
 void Set_Pixel(unsigned short Color);
 void Clear_Screen(unsigned short Color);

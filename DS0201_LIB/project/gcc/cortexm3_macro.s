@@ -3,7 +3,7 @@
 ;* Author             : MCD Application Team
 ;* Version            : V1.0
 ;* Date               : 10/08/2007
-;* Description        : Instruction wrappers for special Cortex-M3 instructions.                      
+;* Description        : Instruction wrappers for special Cortex-M3 instructions.
 ;*******************************************************************************
 ; THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
 ; WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME.
@@ -13,16 +13,16 @@
 ; INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
 ;******************************************************************************/
  .cpu cortex-m3
-.fpu softvfp   
+.fpu softvfp
 .syntax unified
 .thumb
-.text	
+.text
 
-  /*; Exported functions*/	    
+  /*; Exported functions*/
   .globl __WFI
   .globl __WFE
   .globl __SEV
-  .globl __ISB 
+  .globl __ISB
   .globl __DSB
   .globl __DMB
   .globl __SVC
@@ -31,7 +31,7 @@
   .globl __MRS_PSP
   .globl __MSR_PSP
   .globl __MRS_MSP
-  .globl __MSR_MSP    
+  .globl __MSR_MSP
   .globl __SETPRIMASK
   .globl __RESETPRIMASK
   .globl __SETFAULTMASK
@@ -39,7 +39,7 @@
   .globl __BASEPRICONFIG
   .globl __GetBASEPRI
   .globl __REV_HalfWord
-  .globl __REV_Word  
+  .globl __REV_Word
 
 /*;*****************************************************************************
 ; Function Name  : __WFI
@@ -48,8 +48,8 @@
 ; Return         : None
 ;******************************************************************************/
 .thumb_func
-__WFI: 
- 
+__WFI:
+
     WFI
     BX r14
 
@@ -140,7 +140,7 @@ __MRS_CONTROL:
 /*;*****************************************************************************
 ; Function Name  : __MSR_CONTROL
 ; Description    : Assembler function for the MSR instruction.
-; Input          : - R0 : Cortex-M3 CONTROL register new value.  
+; Input          : - R0 : Cortex-M3 CONTROL register new value.
 ; Return         : None
 ;******************************************************************************/
 .thumb_func
@@ -164,12 +164,12 @@ __MRS_PSP:
 /*;*****************************************************************************
 ; Function Name  : __MSR_PSP
 ; Description    : Assembler function for the MSR instruction.
-; Input          : - r0 : Process Stack new value.  
+; Input          : - r0 : Process Stack new value.
 ; Return         : None
 ;******************************************************************************/
 .thumb_func
 __MSR_PSP:
- 
+
     MSR psp,  r0      /* set Process Stack value*/
     BX r14
 
@@ -188,18 +188,18 @@ __MRS_MSP:
 /*;*****************************************************************************
 ; Function Name  : __MSR_MSP
 ; Description    : Assembler function for the MSR instruction.
-; Input          : - r0 : Main Stack new value.  
+; Input          : - r0 : Main Stack new value.
 ; Return         : None
 ;******************************************************************************/
 .thumb_func
-__MSR_MSP: 
- 
+__MSR_MSP:
+
     MSR msp, r0  /*; set Main Stack value*/
     BX r14
 /*;*****************************************************************************
 ; Function Name  : __SETPRIMASK
 ; Description    : Assembler function to set the PRIMASK.
-; Input          : None 
+; Input          : None
 ; Return         : None
 ;******************************************************************************/
 .thumb_func
@@ -211,7 +211,7 @@ __SETPRIMASK:
 /*;*****************************************************************************
 ; Function Name  : __RESETPRIMASK
 ; Description    : Assembler function to reset the PRIMASK.
-; Input          : None 
+; Input          : None
 ; Return         : None
 ;******************************************************************************/
 .thumb_func
@@ -223,7 +223,7 @@ __RESETPRIMASK:
 /*;*****************************************************************************
 ; Function Name  : __SETFAULTMASK
 ; Description    : Assembler function to set the FAULTMASK.
-; Input          : None 
+; Input          : None
 ; Return         : None
 ;******************************************************************************/
 .thumb_func
@@ -235,7 +235,7 @@ __SETFAULTMASK:
 /*;*****************************************************************************
 ; Function Name  : __RESETFAULTMASK
 ; Description    : Assembler function to reset the FAULTMASK.
-; Input          : None 
+; Input          : None
 ; Return         : None
 ;******************************************************************************/
 .thumb_func
@@ -247,7 +247,7 @@ __RESETFAULTMASK:
 /*;*****************************************************************************
 ; Function Name  : __BASEPRICONFIG
 ; Description    : Assembler function to set the Base Priority.
-; Input          : - r0 : Base Priority new value  
+; Input          : - r0 : Base Priority new value
 ; Return         : None
 ;******************************************************************************/
 .thumb_func
@@ -259,8 +259,8 @@ __BASEPRICONFIG:
 /*;*****************************************************************************
 ; Function Name  : __GetBASEPRI
 ; Description    : Assembler function to get the Base Priority value.
-; Input          : None 
-; Return         : - r0 : Base Priority value 
+; Input          : None
+; Return         : - r0 : Base Priority value
 ;******************************************************************************/
 .thumb_func
 __GetBASEPRI:
@@ -274,8 +274,8 @@ __GetBASEPRI:
 ; Return         : - r0 : holds tve variable value after byte reversing.
 ;******************************************************************************/
 .thumb_func
-__REV_HalfWord: 
- 
+__REV_HalfWord:
+
   REV16 r0, r0
   BX r14
 
@@ -286,12 +286,12 @@ __REV_HalfWord:
 ; Return         : - r0 : holds tve variable value after byte reversing.
 ;******************************************************************************/
 .thumb_func
-__REV_Word: 
- 
+__REV_Word:
+
   REV r0, r0
   BX r14
-  
-.end  
 
-  
+.end
+
+
 /*;*************** (C) COPYRIGHT 2007 STMicroelectronics *****END OF FILE******/

@@ -75,7 +75,7 @@ void SPI_DeInit(SPI_TypeDef* SPIx)
 
 /*******************************************************************************
 * Function Name  : SPI_Init
-* Description    : Initializes the SPIx peripheral according to the specified 
+* Description    : Initializes the SPIx peripheral according to the specified
 *                  parameters in the SPI_InitStruct.
 * Input          : - SPIx: where x can be 1 or 2 to select the SPI peripheral.
 *                  - SPI_InitStruct: pointer to a SPI_InitTypeDef structure that
@@ -113,8 +113,8 @@ void SPI_Init(SPI_TypeDef* SPIx, SPI_InitTypeDef* SPI_InitStruct)
   /* Set CPOL bit according to SPI_CPOL value */
   /* Set CPHA bit according to SPI_CPHA value */
   tmpreg |= (u16)((u32)SPI_InitStruct->SPI_Direction | SPI_InitStruct->SPI_Mode |
-                  SPI_InitStruct->SPI_DataSize | SPI_InitStruct->SPI_CPOL |  
-                  SPI_InitStruct->SPI_CPHA | SPI_InitStruct->SPI_NSS |  
+                  SPI_InitStruct->SPI_DataSize | SPI_InitStruct->SPI_CPOL |
+                  SPI_InitStruct->SPI_CPHA | SPI_InitStruct->SPI_NSS |
                   SPI_InitStruct->SPI_BaudRatePrescaler | SPI_InitStruct->SPI_FirstBit);
   /* Write to SPIx CR1 */
   SPIx->CR1 = tmpreg;
@@ -167,7 +167,7 @@ void SPI_StructInit(SPI_InitTypeDef* SPI_InitStruct)
 * Function Name  : SPI_Cmd
 * Description    : Enables or disables the specified SPI peripheral.
 * Input          : - SPIx: where x can be 1 or 2 to select the SPI peripheral.
-*                  - NewState: new state of the SPIx peripheral. 
+*                  - NewState: new state of the SPIx peripheral.
 *                    This parameter can be: ENABLE or DISABLE.
 * Output         : None
 * Return         : None
@@ -194,7 +194,7 @@ void SPI_Cmd(SPI_TypeDef* SPIx, FunctionalState NewState)
 * Description    : Enables or disables the specified SPI interrupts.
 * Input          : - SPIx: where x can be 1 or 2 to select the SPI peripheral.
 *                  - SPI_IT: specifies the SPI interrupt source to be enabled
-*                    or disabled. 
+*                    or disabled.
 *                    This parameter can be one of the following values:
 *                       - SPI_IT_TXE: Tx buffer empty interrupt mask
 *                       - SPI_IT_RXNE: Rx buffer not empty interrupt mask
@@ -234,7 +234,7 @@ void SPI_ITConfig(SPI_TypeDef* SPIx, u8 SPI_IT, FunctionalState NewState)
 * Description    : Enables or disables the SPIx’s DMA interface.
 * Input          : - SPIx: where x can be 1 or 2 to select the SPI peripheral.
 *                  - SPI_DMAReq: specifies the SPI DMA transfer request to be
-*                    enabled or disabled. 
+*                    enabled or disabled.
 *                    This parameter can be any combination of the following values:
 *                       - SPI_DMAReq_Tx: Tx buffer DMA transfer request
 *                       - SPI_DMAReq_Rx: Rx buffer DMA transfer request
@@ -290,7 +290,7 @@ u16 SPI_ReceiveData(SPI_TypeDef* SPIx)
 
 /*******************************************************************************
 * Function Name  : SPI_NSSInternalSoftwareConfig
-* Description    : Configures internally by software the NSS pin for the selected 
+* Description    : Configures internally by software the NSS pin for the selected
 *                  SPI.
 * Input          : - SPIx: where x can be 1 or 2 to select the SPI peripheral.
 *                  - SPI_NSSInternalSoft: specifies the SPI NSS internal state.
@@ -321,7 +321,7 @@ void SPI_NSSInternalSoftwareConfig(SPI_TypeDef* SPIx, u16 SPI_NSSInternalSoft)
 * Function Name  : SPI_SSOutputCmd
 * Description    : Enables or disables the SS output for the selected SPI.
 * Input          : - SPIx: where x can be 1 or 2 to select the SPI peripheral.
-*                  - NewState: new state of the SPIx SS output. 
+*                  - NewState: new state of the SPIx SS output.
 *                    This parameter can be: ENABLE or DISABLE.
 * Output         : None
 * Return         : None
@@ -458,7 +458,7 @@ u16 SPI_GetCRCPolynomial(SPI_TypeDef* SPIx)
 *                  for the specified SPI.
 * Input          : - SPIx: where x can be 1 or 2 to select the SPI peripheral.
 *                  - SPI_Direction: specifies the data transfer direction in
-*                    bi-directional mode. 
+*                    bi-directional mode.
 *                    This parameter can be one of the following values:
 *                       - SPI_Direction_Tx: Selects Tx transmission direction
 *                       - SPI_Direction_Rx: Selects Rx receive direction
@@ -486,7 +486,7 @@ void SPI_BiDirectionalLineConfig(SPI_TypeDef* SPIx, u16 SPI_Direction)
 * Function Name  : SPI_GetFlagStatus
 * Description    : Checks whether the specified SPI flag is set or not.
 * Input          : - SPIx: where x can be 1 or 2 to select the SPI peripheral.
-*                  - SPI_FLAG: specifies the flag to check. 
+*                  - SPI_FLAG: specifies the flag to check.
 *                    This parameter can be one of the following values:
 *                       - SPI_FLAG_BSY: Busy flag.
 *                       - SPI_FLAG_OVR: Overrun flag.
@@ -523,7 +523,7 @@ FlagStatus SPI_GetFlagStatus(SPI_TypeDef* SPIx, u16 SPI_FLAG)
 * Function Name  : SPI_ClearFlag
 * Description    : Clears the SPIx's pending flags.
 * Input          : - SPIx: where x can be 1 or 2 to select the SPI peripheral.
-*                  - SPI_FLAG: specifies the flag to clear. 
+*                  - SPI_FLAG: specifies the flag to clear.
 *                    This parameter can be any combination of the following values:
 *                       - SPI_FLAG_OVR: Overrun flag.
 *                       - SPI_FLAG_MODF: Mode Fault flag.
@@ -535,17 +535,17 @@ void SPI_ClearFlag(SPI_TypeDef* SPIx, u16 SPI_FLAG)
 {
   /* Check the parameters */
   assert_param(IS_SPI_CLEAR_FLAG(SPI_FLAG));
-    
+
   /* SPI_FLAG_MODF flag clear */
   if(SPI_FLAG == SPI_FLAG_MODF)
   {
     /* Read SR register */
     (void)SPIx->SR;
     /* Write on CR1 register */
-    SPIx->CR1 |= CR1_SPE_Set; 
+    SPIx->CR1 |= CR1_SPE_Set;
   }
   /* SPI_FLAG_OVR flag clear */
-  else if(SPI_FLAG == SPI_FLAG_OVR)  
+  else if(SPI_FLAG == SPI_FLAG_OVR)
   {
     /* Read SR register */
     (void)SPIx->SR;
@@ -561,7 +561,7 @@ void SPI_ClearFlag(SPI_TypeDef* SPIx, u16 SPI_FLAG)
 * Function Name  : SPI_GetITStatus
 * Description    : Checks whether the specified SPI interrupt has occurred or not.
 * Input          : - SPIx: where x can be 1 or 2 to select the SPI peripheral.
-*                  - SPI_IT: specifies the SPI interrupt source to check. 
+*                  - SPI_IT: specifies the SPI interrupt source to check.
 *                    This parameter can be one of the following values:
 *                       - SPI_IT_OVR: Overrun interrupt.
 *                       - SPI_IT_MODF: Mode Fault interrupt.
@@ -629,9 +629,9 @@ void SPI_ClearITPendingBit(SPI_TypeDef* SPIx, u8 SPI_IT)
     /* Read SR register */
     (void)SPIx->SR;
     /* Write on CR1 register */
-    SPIx->CR1 |= CR1_SPE_Set; 
+    SPIx->CR1 |= CR1_SPE_Set;
   }
-  else if(SPI_IT == SPI_IT_OVR)   /* SPI_IT_OVR pending bit clear */ 
+  else if(SPI_IT == SPI_IT_OVR)   /* SPI_IT_OVR pending bit clear */
   {
     /* Read SR register */
     (void)(SPIx->SR);

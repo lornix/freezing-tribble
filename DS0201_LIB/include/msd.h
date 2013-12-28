@@ -141,6 +141,6 @@ u16 MSD_GetStatus(void);
 
 void Delay_us(void);
 
-#endif 
+#endif
 
 /********************************* END OF FILE ********************************/

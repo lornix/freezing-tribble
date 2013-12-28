@@ -133,10 +133,10 @@ void BKP_ITConfig(FunctionalState NewState)
 *                       - BKP_RTCOutputSource_None: no RTC output on the Tamper pin.
 *                       - BKP_RTCOutputSource_CalibClock: output the RTC clock
 *                         with frequency divided by 64 on the Tamper pin.
-*                       - BKP_RTCOutputSource_Alarm: output the RTC Alarm pulse 
+*                       - BKP_RTCOutputSource_Alarm: output the RTC Alarm pulse
 *                         signal on the Tamper pin.
-*                       - BKP_RTCOutputSource_Second: output the RTC Second pulse 
-*                         signal on the Tamper pin.  
+*                       - BKP_RTCOutputSource_Second: output the RTC Second pulse
+*                         signal on the Tamper pin.
 * Output         : None
 * Return         : None
 *******************************************************************************/
@@ -151,7 +151,7 @@ void BKP_RTCOutputConfig(u16 BKP_RTCOutputSource)
 
   /* Clear CCO, ASOE and ASOS bits */
   tmpreg &= RTCCR_Mask;
-  
+
   /* Set CCO, ASOE and ASOS bits according to BKP_RTCOutputSource value */
   tmpreg |= BKP_RTCOutputSource;
 

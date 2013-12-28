@@ -674,7 +674,7 @@ typedef struct
 
 #ifdef _FLASH
   #define FLASH               ((FLASH_TypeDef *) FLASH_BASE)
-  #define OB                  ((OB_TypeDef *) OB_BASE) 
+  #define OB                  ((OB_TypeDef *) OB_BASE)
 #endif /*_FLASH */
 
 #ifdef _RCC
@@ -687,7 +687,7 @@ typedef struct
 
 #ifdef _NVIC
   #define NVIC                ((NVIC_TypeDef *) NVIC_BASE)
-  #define SCB                 ((SCB_TypeDef *) SCB_BASE)  
+  #define SCB                 ((SCB_TypeDef *) SCB_BASE)
 #endif /*_NVIC */
 
 /*------------------------ Debug Mode ----------------------------------------*/
@@ -830,7 +830,7 @@ typedef struct
 
 #ifdef _FLASH
   EXT FLASH_TypeDef            *FLASH;
-  EXT OB_TypeDef               *OB;  
+  EXT OB_TypeDef               *OB;
 #endif /*_FLASH */
 
 #ifdef _RCC

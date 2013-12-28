@@ -68,7 +68,7 @@ const intvec_elem __vector_table[] __attribute__ ((section(".isr_vector"))) =
   MemManageException,
   BusFaultException,
   UsageFaultException,
-  (intfunc)&LIB_Offsets, 0, 0, 0,            /* Reserved */ 
+  (intfunc)&LIB_Offsets, 0, 0, 0,            /* Reserved */
   SVCHandler,
   DebugMonitor,
   0,                      /* Reserved */

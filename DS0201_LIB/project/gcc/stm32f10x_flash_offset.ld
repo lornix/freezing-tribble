@@ -8,7 +8,7 @@ Copyright RAISONANCE S.A.S. 2008
 /* Common part of the linker scripts for STM32 devices*/
 
 
-/* default stack sizes. 
+/* default stack sizes.
 
 These are used by the startup in order to allocate stacks for the different modes.
 */
@@ -73,7 +73,7 @@ SECTIONS
         KEEP(*(.isr_vector))            /* Startup code */
 	. = ALIGN(4);
     } >FLASH
- 
+
     /* for some STRx devices, the beginning of the startup code is stored in the .flashtext section, which goes to FLASH */
     .flashtext :
     {
@@ -81,13 +81,13 @@ SECTIONS
         *(.flashtext)            /* Startup code */
 	. = ALIGN(4);
     } >FLASH
- 
-    
+
+
     /* the program code is stored in the .text section, which goes to Flash */
     .text :
     {
 	    . = ALIGN(4);
-	    
+
         *(.text)                   /* remaining code */
         *(.text.*)                   /* remaining code */
         *(.rodata)                 /* read-only data (constants) */
@@ -100,8 +100,8 @@ SECTIONS
 	    /* This is used by the startup in order to initialize the .data secion */
    	 _sidata = _etext;
     } >FLASH
-    
- 
+
+
 
     /* This is the initialized data section
     The program executes knowing that the data is in the RAM
@@ -112,7 +112,7 @@ SECTIONS
 	    . = ALIGN(4);
         /* This is used by the startup in order to initialize the .data secion */
         _sdata = . ;
-        
+
         *(.data)
         *(.data.*)
 
@@ -120,8 +120,8 @@ SECTIONS
 	    /* This is used by the startup in order to initialize the .data secion */
    	 _edata = . ;
     } >RAM
-    
-    
+
+
 
     /* This is the uninitialized data section */
     .bss :
@@ -129,19 +129,19 @@ SECTIONS
 	    . = ALIGN(4);
         /* This is used by the startup in order to initialize the .bss secion */
         _sbss = .;
-        
+
         *(.bss)
         *(COMMON)
-        
+
 	    . = ALIGN(4);
 	    /* This is used by the startup in order to initialize the .bss secion */
    	 _ebss = . ;
     } >RAM
-    
+
     PROVIDE ( end = _ebss );
     PROVIDE ( _end = _ebss );
-    
-    /* This is the user stack section 
+
+    /* This is the user stack section
     This is just to check that there is enough RAM left for the User mode stack
     It should generate an error if it's full.
      */
@@ -149,15 +149,15 @@ SECTIONS
     {
 	    . = ALIGN(4);
         _susrstack = . ;
-        
+
         . = . + _Minimum_Stack_Size ;
-        
+
 	    . = ALIGN(4);
         _eusrstack = . ;
     } >RAM
-    
 
-   
+
+
     /* this is the FLASH Bank1 */
     /* the C or assembly source must explicitly place the code or data there
     using the "section" attribute */
@@ -167,11 +167,11 @@ SECTIONS
         *(.b1rodata)                 /* read-only data (constants) */
         *(.b1rodata*)
     } >FLASHB1
-    
+
     /* this is the EXTMEM */
     /* the C or assembly source must explicitly place the code or data there
     using the "section" attribute */
-    
+
     /* EXTMEM Bank0 */
     .eb0text :
     {
@@ -179,7 +179,7 @@ SECTIONS
         *(.eb0rodata)                 /* read-only data (constants) */
         *(.eb0rodata*)
     } >EXTMEMB0
-    
+
     /* EXTMEM Bank1 */
     .eb1text :
     {
@@ -187,7 +187,7 @@ SECTIONS
         *(.eb1rodata)                 /* read-only data (constants) */
         *(.eb1rodata*)
     } >EXTMEMB1
-    
+
     /* EXTMEM Bank2 */
     .eb2text :
     {
@@ -195,7 +195,7 @@ SECTIONS
         *(.eb2rodata)                 /* read-only data (constants) */
         *(.eb2rodata*)
     } >EXTMEMB2
-    
+
     /* EXTMEM Bank0 */
     .eb3text :
     {
@@ -203,11 +203,11 @@ SECTIONS
         *(.eb3rodata)                 /* read-only data (constants) */
         *(.eb3rodata*)
     } >EXTMEMB3
-    
-    
-    
+
+
+
     /* after that it's only debugging information. */
-    
+
     /* remove the debugging information from the standard libraries */
     DISCARD :
     {

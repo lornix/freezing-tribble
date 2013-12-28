@@ -58,7 +58,7 @@ typedef struct
 /* USART Parity --------------------------------------------------------------*/
 #define USART_Parity_No                      ((u16)0x0000)
 #define USART_Parity_Even                    ((u16)0x0400)
-#define USART_Parity_Odd                     ((u16)0x0600) 
+#define USART_Parity_Odd                     ((u16)0x0600)
 
 #define IS_USART_PARITY(PARITY) ((PARITY == USART_Parity_No) || \
                                  (PARITY == USART_Parity_Even) || \
@@ -94,7 +94,7 @@ typedef struct
 #define USART_CPOL_High                      ((u16)0x0400)
 
 #define IS_USART_CPOL(CPOL) ((CPOL == USART_CPOL_Low) || (CPOL == USART_CPOL_High))
-                               
+
 /* USART Clock Phase ---------------------------------------------------------*/
 #define USART_CPHA_1Edge                     ((u16)0x0000)
 #define USART_CPHA_2Edge                     ((u16)0x0200)
@@ -176,7 +176,7 @@ typedef struct
                              (FLAG == USART_FLAG_IDLE) || (FLAG == USART_FLAG_LBD) || \
                              (FLAG == USART_FLAG_CTS) || (FLAG == USART_FLAG_ORE) || \
                              (FLAG == USART_FLAG_NE) || (FLAG == USART_FLAG_FE))
- 
+
 #define IS_USART_CLEAR_FLAG(FLAG) (((FLAG & (u16)0xFC00) == 0x00) && (FLAG != (u16)0x00))
 
 #define IS_USART_BAUDRATE(BAUDRATE) ((BAUDRATE > 0) && (BAUDRATE < 0x0044AA21))

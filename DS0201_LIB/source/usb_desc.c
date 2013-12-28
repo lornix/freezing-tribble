@@ -129,5 +129,5 @@ const u8 MASS_StringInterface[MASS_SIZ_STRING_INTERFACE] =
     /* Interface 0: "ST Mass" */
     'S', 0, 'T', 0, ' ', 0, 'M', 0, 'a', 0, 's', 0, 's', 0
   };
-  
+
 /******************* (C) COPYRIGHT 2007 STMicroelectronics *****END OF FILE****/

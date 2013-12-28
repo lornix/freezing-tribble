@@ -141,7 +141,7 @@ void RCC_DeInit(void)
 
   /* Reset SW[1:0], HPRE[3:0], PPRE1[2:0], PPRE2[2:0], ADCPRE[1:0] and MCO[2:0] bits*/
   RCC->CFGR &= 0xF8FF0000;
-  
+
   /* Reset HSEON, CSSON and PLLON bits */
   RCC->CR &= 0xFEF6FFFF;
 
@@ -158,7 +158,7 @@ void RCC_DeInit(void)
 /*******************************************************************************
 * Function Name  : RCC_HSEConfig
 * Description    : Configures the External High Speed oscillator (HSE).
-*                  HSE can not be stopped if it is used directly or through the 
+*                  HSE can not be stopped if it is used directly or through the
 *                  PLL as system clock.
 * Input          : - RCC_HSE: specifies the new state of the HSE.
 *                    This parameter can be one of the following values:
@@ -188,14 +188,14 @@ void RCC_HSEConfig(u32 RCC_HSE)
       /* Set HSEON bit */
       RCC->CR |= CR_HSEON_Set;
       break;
-      
+
     case RCC_HSE_Bypass:
       /* Set HSEBYP and HSEON bits */
       RCC->CR |= CR_HSEBYP_Set | CR_HSEON_Set;
-      break;            
-      
+      break;
+
     default:
-      break;      
+      break;
   }
 }
 
@@ -214,7 +214,7 @@ ErrorStatus RCC_WaitForHSEStartUp(void)
   do
   {
     HSEStatus = RCC_GetFlagStatus(RCC_FLAG_HSERDY);
-    StartUpCounter++;  
+    StartUpCounter++;
   } while((HSEStatus == RESET) && (StartUpCounter != HSEStartUp_TimeOut));
 
 
@@ -225,7 +225,7 @@ ErrorStatus RCC_WaitForHSEStartUp(void)
   else
   {
     return ERROR;
-  }  
+  }
 }
 
 /*******************************************************************************
@@ -259,7 +259,7 @@ void RCC_AdjustHSICalibrationValue(u8 HSICalibrationValue)
 /*******************************************************************************
 * Function Name  : RCC_HSICmd
 * Description    : Enables or disables the Internal High Speed oscillator (HSI).
-*                  HSI can not be stopped if it is used directly or through the 
+*                  HSI can not be stopped if it is used directly or through the
 *                  PLL as system clock.
 * Input          : - NewState: new state of the HSI.
 *                    This parameter can be: ENABLE or DISABLE.
@@ -595,14 +595,14 @@ void RCC_LSEConfig(u32 RCC_LSE)
       /* Set LSEON bit */
       *(vu8 *) BDCR_BASE = RCC_LSE_ON;
       break;
-      
+
     case RCC_LSE_Bypass:
       /* Set LSEBYP and LSEON bits */
       *(vu8 *) BDCR_BASE = RCC_LSE_Bypass | RCC_LSE_ON;
-      break;            
-      
+      break;
+
     default:
-      break;      
+      break;
   }
 }
 

@@ -14,14 +14,14 @@
 ;*******************************************************************************/
 
 .cpu cortex-m3
-.fpu softvfp   
+.fpu softvfp
 .syntax unified
 .thumb
-.text	
+.text
 
 .global cr4_fft_256_stm32
 .extern TableFFT
-  
+
 .equ NPT, 256
 
 
@@ -29,41 +29,41 @@
 ;* Function Name  : cr4_fft_256_stm32
 ;* Description    : complex radix-4 256 points FFT
 ;* Input          : - R0 = pssOUT: Output array .
-;*                  - R1 = pssIN: Input array 
-;*                  - R2 = Nbin: =256 number of points, this optimized FFT function  
+;*                  - R1 = pssIN: Input array
+;*                  - R2 = Nbin: =256 number of points, this optimized FFT function
 ;*                    can only convert 256 points.
-;* Output         : None 
+;* Output         : None
 ;* Return         : None
 ;********************************************************************************/
 .thumb_func
 cr4_fft_256_stm32:
 
         STMFD   SP!, {R4-R11, LR}
-        
+
         MOV r12, #0
-        MOV r3, r0 
+        MOV r3, r0
         MOV r0,#0
-        
+
 preloop_v7:
         ADD     r14, r1, r12, LSR#24 /*256pts*/
-       
-        LDRSH r5, [r14, #2]       
+
+        LDRSH r5, [r14, #2]
         LDRSH r4, [r14]
         ADD   r14, #NPT
         LDRSH r9, [r14, #2]
         LDRSH r8, [r14]
-        ADD   r14, #NPT      
+        ADD   r14, #NPT
         LDRSH r7, [r14, #2]
         LDRSH r6, [r14]
-        ADD   r14, #NPT        
+        ADD   r14, #NPT
         LDRSH r11, [r14, #2]
         LDRSH r10, [r14]
         ADD   r14, #NPT
 
         ADD     r8, r8, r10
         ADD     r9, r9, r11
-        SUB     r10, r8, r10, LSL#1  
-        SUB     r11, r9, r11, LSL#1  
+        SUB     r10, r8, r10, LSL#1
+        SUB     r11, r9, r11, LSL#1
 
         MOV     r4, r4, ASR#2
         MOV     r5, r5, ASR#2
@@ -81,40 +81,40 @@ preloop_v7:
         SUB     r7, r7, r10, ASR#2
         SUB     r11, r6, r11, ASR#1
         ADD     r10, r7, r10, ASR#1
-   
+
         STRH    r5, [r3, #2]
         STRH    r4, [r3], #4
         STRH    r7, [r3, #2]
         STRH    r6, [r3], #4
         STRH    r9, [r3, #2]
         STRH    r8, [r3], #4
-        STRH    r10, [r3, #2]  
+        STRH    r10, [r3, #2]
         STRH    r11, [r3], #4
-        
+
          ADD r0, r0, #1
-         
-         RBIT r12, r0 
-         
-         CMP r0,#64 /*256pts*/  
+
+         RBIT r12, r0
+
+         CMP r0,#64 /*256pts*/
          BNE  preloop_v7
 
          SUB     r1, r3, r2, LSL#2
          MOV     r0, #16
-         MOVS    r2, r2, LSR#4   
+         MOVS    r2, r2, LSR#4
 
 /*;------------------------------------------------------------------------------
-;   The FFT coefficients table can be stored into Flash or RAM. 
-;   The following two lines of code allow selecting the method for coefficients 
-;   storage. 
+;   The FFT coefficients table can be stored into Flash or RAM.
+;   The following two lines of code allow selecting the method for coefficients
+;   storage.
 ;   In the case of choosing coefficients in RAM, you have to:
-;   1. Include the file table_fft.h, which is a part of the DSP library, 
+;   1. Include the file table_fft.h, which is a part of the DSP library,
 ;      in your main file.
-;   2. Decomment the line LDR.W pssK, =TableFFT and comment the line 
+;   2. Decomment the line LDR.W pssK, =TableFFT and comment the line
 ;      ADRL    pssK, TableFFT_V7
 ;   3. Comment all the TableFFT_V7 data.
 ;------------------------------------------------------------------------------*/
-         ADR    r3, TableFFT_V7    
-         /*LDR.W r3, =TableFFT*/      
+         ADR    r3, TableFFT_V7
+         /*LDR.W r3, =TableFFT*/
 
 
 passloop_v7:
@@ -127,7 +127,7 @@ grouploop_v7:
          ADD     r2,r2,r0,LSL#(16-2)
 
 butterloop_v7:
-        		
+
          LDRSH r5, [r1, #2]
          LDRSH r4, [r1]
          SUB r1, r1, r0
@@ -136,43 +136,43 @@ butterloop_v7:
       	LDRSH r10, [r3]
       	ADD r3, r3, #4
 
-         SUB  r14, r5, r4         
-         MUL  r12, r14, r11        
-         ADD  r14, r10, r11, LSL#1  
-         MLA  r11, r5, r10, r12     
-         MLA  r10, r4, r14, r12   
+         SUB  r14, r5, r4
+         MUL  r12, r14, r11
+         ADD  r14, r10, r11, LSL#1
+         MLA  r11, r5, r10, r12
+         MLA  r10, r4, r14, r12
 
          LDRSH r5, [r1, #2]
          LDRSH r4, [r1]
          SUB r1, r1, r0
-				
+
       	LDRSH r9, [r3, #2]
       	LDRSH r8, [r3]
       	ADD r3, r3, #4
-        
-         SUB  r14, r5, r4         
-         MUL  r12, r14, r9        
-         ADD  r14, r8, r9, LSL#1  
-         MLA  r9, r5, r8, r12     
-         MLA  r8, r4, r14, r12   
-	
+
+         SUB  r14, r5, r4
+         MUL  r12, r14, r9
+         ADD  r14, r8, r9, LSL#1
+         MLA  r9, r5, r8, r12
+         MLA  r8, r4, r14, r12
+
          LDRSH r5, [r1, #2]
          LDRSH r4, [r1]
          SUB r1, r1, r0
-				
+
          LDRSH r7, [r3, #2]
       	LDRSH r6, [r3]
       	ADD r3, r3, #4
-		
-         SUB  r14, r5, r4        
-         MUL  r12, r14, r7        
-         ADD  r14, r6, r7, LSL#1  
-         MLA  r7, r5, r6, r12     
-         MLA  r6, r4, r14, r12   
-		
+
+         SUB  r14, r5, r4
+         MUL  r12, r14, r7
+         ADD  r14, r6, r7, LSL#1
+         MLA  r7, r5, r6, r12
+         MLA  r6, r4, r14, r12
+
          LDRSH r5, [r1, #2]
       	LDRSH r4, [r1]
-    		
+
          ADD     r8, r8, r10
          ADD     r9, r9, r11
          SUB     r10, r8, r10, LSL#1
@@ -193,7 +193,7 @@ butterloop_v7:
          ADD     r6, r6, r11, ASR#(2+14)
          SUB     r7, r7, r10, ASR#(2+14)
          SUB     r11, r6, r11, ASR#(1+14)
-         ADD     r10, r7, r10, ASR#(1+14)      
+         ADD     r10, r7, r10, ASR#(1+14)
 
          STRH    r5, [r1, #2]
          STRH    r4, [r1]
@@ -204,7 +204,7 @@ butterloop_v7:
          STRH    r9, [r1, #2]
          STRH    r8, [r1]
          ADD     r1, r1, r0
-         STRH    r10, [r1, #2]  
+         STRH    r10, [r1, #2]
          STRH    r11, [r1], #4
          SUBS        r2,r2, #1<<16
          BGE     butterloop_v7
@@ -218,7 +218,7 @@ butterloop_v7:
          BNE     grouploop_v7
 
          LDMFD   sp!, {r1, r2}
-         MOV  r0,r0,LSL#2		
+         MOV  r0,r0,LSL#2
          MOVS    r2, r2, LSR#2
        	BNE     passloop_v7
        	LDMFD   SP!, {R4-R11, PC}
@@ -312,7 +312,7 @@ TableFFT_V7:
         .short 0x306c,0xc18e, 0xc4e2,0x3fd4, 0xb74d,0x0964
         .short 0x35eb,0xc0b1, 0xc338,0x3fec, 0xba09,0x0646
         .short 0x3b1e,0xc02c, 0xc197,0x3ffb, 0xbcf0,0x0324
-        
-        
-.end       
+
+
+.end
 /******************* (C) COPYRIGHT 2009  STMicroelectronics *****END OF FILE****/

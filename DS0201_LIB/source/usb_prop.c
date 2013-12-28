@@ -148,14 +148,14 @@ void MASS_init()
   _SetCNTR(wInterrupt_Mask);
   pInformation->Current_Feature = MASS_ConfigDescriptor[7];
 
-  /* Wait until device is configured 
+  /* Wait until device is configured
   while (pInformation->Current_Configuration == 0)
   {
     NOP_Process();
   }*/
-  
+
   for(tmp=0;tmp<100000;++tmp) NOP_Process(); // CXG: 12/08
-  
+
   bDeviceState = CONFIGURED;
 }
 

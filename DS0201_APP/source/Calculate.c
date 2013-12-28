@@ -1,5 +1,5 @@
 /*******************************************************************************
-File Name: Calculate.c  
+File Name: Calculate.c
 *******************************************************************************/
 
 #include "Calculate.h"
@@ -105,7 +105,7 @@ void Int32String_sign(I32STR_RES * r, int n, unsigned char e)
    case 0:
       *p++ = '0' + n;
    }
-   
+
    while (p < r->str + fixlen) {
      char *q = p;
      while (q > r->str) {
@@ -271,7 +271,7 @@ unsigned short sqrt32(unsigned long n)
 {
     unsigned short c = 0x8000;
     unsigned short g = 0x8000;
-    
+
     for(;;) {
       if(g*g > n)
       g ^= c;

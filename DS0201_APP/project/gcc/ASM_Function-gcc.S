@@ -11,11 +11,11 @@
 #else
   RSEG CODE:CODE(2)
 #endif
-  
+
   EXPORT __Erase_Color
   EXPORT __Add_Color
   EXPORT __Get_Pixel
-  
+
 .equiv GPIO,   0x4001
 .equiv LCD_DATA_PORT,   0x1800   /* PORT_E */
 .equiv LCD_Ctrl_PORT,   0x1400   /* PORT_D */
@@ -52,59 +52,59 @@
 .thumb_func
 __Add_Color:            /* void __Add_Color(unsigned short x,unsigned short y,unsigned short Color) */
 
-    STMDB   SP!, {R4-R7}       
+    STMDB   SP!, {R4-R7}
 
-    MOVW    R7,  #LCD_DATA_PORT  
-    MOVT    R7,  #GPIO  
+    MOVW    R7,  #LCD_DATA_PORT
+    MOVT    R7,  #GPIO
     MOVW    R6,  #LCD_Ctrl_PORT
-    MOVT    R6,  #GPIO  
-    MOVS    R3,  #LCD_RS 
+    MOVT    R6,  #GPIO
+    MOVS    R3,  #LCD_RS
     MOVS    R4,  #LCD_WR
-    
+
     MOVS    R5,  #0x20              /* Y_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
     STR     R1,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
     MOVS    R5,  #0x21              /* X_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = X_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
     STR     R0,  [R7, #ODR]         /* [LCD_DATA] = X_Addr */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
     MOVS    R5,  #0x22              /* GRAM_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = GRAM_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
 
@@ -112,82 +112,82 @@ __Add_Color:            /* void __Add_Color(unsigned short x,unsigned short y,un
     STR     R5,  [R7, #CRL]
     STR     R5,  [R7, #CRH]
 
-    MOVS    R0,  #LCD_RD 
+    MOVS    R0,  #LCD_RD
     STR     R0,  [R6, #OUT_L]       /* RD=0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    
+
     STR     R0,  [R6, #OUT_H]       /* RD=1  */
 
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    
+
     STR     R0,  [R6, #OUT_L]       /* RD = 0 */
 
     MOVW    R6,  #LCD_DATA_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
     MOVW    R6,  #LCD_DATA_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    
+
     LDR     R3,  [R7, #IDR]         /* R3 = [LCD_DATA] */
-    
+
     STR     R0,  [R6, #OUT_H]       /* RD = 1 */
 
     MOVS    R5,  #0x33333333        /* OUTPUT MODE   */
     STR     R5,  [R7, #CRL]
     STR     R5,  [R7, #CRH]
 
-    MOVS    R0,  #LCD_RS 
+    MOVS    R0,  #LCD_RS
     MOVS    R5,  #0x20              /* Y_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr REG. */
     STR     R0,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R0,  [R6, #OUT_H]       /* RS = 1 */
     STR     R1,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
     MOVS    R5,  #0x22              /* GRAM_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = GRAM_Addr REG. */
     STR     R0,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R0,  [R6, #OUT_H]       /* RS = 1 */
 
     MOVW    R5,  #C_GROUP
     ANDS    R0,  R3,  R5
     BEQ     ADD_1                   /* If original color is not curve then add color */
-    ANDS    R0,  R2,  R5            
+    ANDS    R0,  R2,  R5
     BEQ     ADD_2                   /* If new color is not curve then keep color as is */
 ADD_1:
     MOVW    R5,  #F_SELEC
@@ -201,13 +201,13 @@ ADD_2:
 ADD_3:
     STR     R3,  [R7, #ODR]         /* [LCD_DATA] = R3 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
-    
-    LDMIA   SP!, {R4-R7}           
+
+    LDMIA   SP!, {R4-R7}
     BX      LR
 
 
@@ -215,59 +215,59 @@ ADD_3:
 .thumb_func
 __Erase_Color:            /* void __Erase_Color(unsigned short x,unsigned short y,unsigned short Color) */
 
-    STMDB   SP!, {R4-R7}       
+    STMDB   SP!, {R4-R7}
 
-    MOVW    R7,  #LCD_DATA_PORT  
-    MOVT    R7,  #GPIO  
+    MOVW    R7,  #LCD_DATA_PORT
+    MOVT    R7,  #GPIO
     MOVW    R6,  #LCD_Ctrl_PORT
-    MOVT    R6,  #GPIO  
-    MOVS    R3,  #LCD_RS 
+    MOVT    R6,  #GPIO
+    MOVS    R3,  #LCD_RS
     MOVS    R4,  #LCD_WR
-    
+
     MOVS    R5,  #0x20              /* Y_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
     STR     R1,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
     MOVS    R5,  #0x21              /* X_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = X_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
     STR     R0,  [R7, #ODR]         /* [LCD_DATA] = X_Addr */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
     MOVS    R5,  #0x22              /* GRAM_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = GRAM_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
 
@@ -275,75 +275,75 @@ __Erase_Color:            /* void __Erase_Color(unsigned short x,unsigned short 
     STR     R5,  [R7, #CRL]
     STR     R5,  [R7, #CRH]
 
-    MOVS    R0,  #LCD_RD 
+    MOVS    R0,  #LCD_RD
     STR     R0,  [R6, #OUT_L]       /* RD=0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    
+
     STR     R0,  [R6, #OUT_H]       /* RD=1  */
 
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    
+
     STR     R0,  [R6, #OUT_L]       /* RD = 0 */
 
     MOVW    R6,  #LCD_DATA_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
     MOVW    R6,  #LCD_DATA_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    
+
     LDR     R3,  [R7, #IDR]         /* R3 = [LCD_DATA] */
-    
+
     STR     R0,  [R6, #OUT_H]       /* RD = 1 */
 
     MOVS    R5,  #0x33333333        /* OUTPUT MODE   */
     STR     R5,  [R7, #CRL]
     STR     R5,  [R7, #CRH]
 
-    MOVS    R0,  #LCD_RS 
+    MOVS    R0,  #LCD_RS
     MOVS    R5,  #0x20              /* Y_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr REG. */
     STR     R0,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R0,  [R6, #OUT_H]       /* RS = 1 */
     STR     R1,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
     MOVS    R5,  #0x22              /* GRAM_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = GRAM_Addr REG. */
     STR     R0,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R0,  [R6, #OUT_H]       /* RS = 1 */
 
@@ -398,75 +398,75 @@ ERASE_GRD:
     BEQ     ERASE_3                 /* restores background */
     MOVW    R5,  #GRD_COLOR
     ORR     R3,  R3,  R5            /* Restore grd color */
-ERASE_3:    
+ERASE_3:
     STR     R3,  [R7, #ODR]         /* [LCD_DATA] = R3 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
-    
-    LDMIA   SP!, {R4-R7}           
+
+    LDMIA   SP!, {R4-R7}
     BX      LR
 
 /* ******************************************************************************* */
 .thumb_func
 __Get_Pixel:    /* unsigned short __Get_Pixel(unsigned short x0,unsigned short y0) */
 
-    STMDB   SP!, {R4-R7}       
+    STMDB   SP!, {R4-R7}
 
-    MOVW    R7,  #LCD_DATA_PORT  
-    MOVT    R7,  #GPIO  
+    MOVW    R7,  #LCD_DATA_PORT
+    MOVT    R7,  #GPIO
     MOVW    R6,  #LCD_Ctrl_PORT
-    MOVT    R6,  #GPIO  
-    MOVS    R3,  #LCD_RS 
+    MOVT    R6,  #GPIO
+    MOVS    R3,  #LCD_RS
     MOVS    R4,  #LCD_WR
-    
+
     MOVS    R5,  #0x20              /* Y_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
     STR     R1,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
     MOVS    R5,  #0x21              /* X_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = X_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
     STR     R0,  [R7, #ODR]         /* [LCD_DATA] = X_Addr */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
     MOVS    R5,  #0x22              /* GRAM_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = GRAM_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
     STR     R4,  [R6, #OUT_L]       /* WR = 0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    
+
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
 
@@ -474,50 +474,50 @@ __Get_Pixel:    /* unsigned short __Get_Pixel(unsigned short x0,unsigned short y
     STR     R5,  [R7, #CRL]
     STR     R5,  [R7, #CRH]
 
-    MOVS    R1,  #LCD_RD 
+    MOVS    R1,  #LCD_RD
     STR     R1,  [R6, #OUT_L]       /* RD=0 */
-    
-    MOVW    R6,  #LCD_Ctrl_PORT  
+
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL  */
-    
+
     STR     R1,  [R6, #OUT_H]       /* RD=1  */
 
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    
+
     STR     R1,  [R6, #OUT_L]       /* RD = 0 */
 
     MOVW    R6,  #LCD_DATA_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
     MOVW    R6,  #LCD_DATA_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    MOVW    R6,  #LCD_Ctrl_PORT  
+    MOVW    R6,  #LCD_Ctrl_PORT
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL   */
-    
+
     LDR     R0,  [R7, #IDR]         /* R3 = [LCD_DATA] */
-    
+
     STR     R1,  [R6, #OUT_H]       /* RD = 1 */
 
     MOVS    R5,  #0x33333333        /* OUTPUT MODE   */
     STR     R5,  [R7, #CRL]
     STR     R5,  [R7, #CRH]
 
-    
-    LDMIA   SP!, {R4-R7}           
+
+    LDMIA   SP!, {R4-R7}
     BX      LR
 
 
@@ -528,5 +528,5 @@ __Get_Pixel:    /* unsigned short __Get_Pixel(unsigned short x0,unsigned short y
 #endif
 
 /* ******************************* END OF FILE *********************************** */
-  
+
 

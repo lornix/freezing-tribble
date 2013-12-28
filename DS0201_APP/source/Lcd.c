@@ -1,5 +1,5 @@
 /*******************************************************************************
-File Name: lcd.c      
+File Name: lcd.c
 *******************************************************************************/
 #include "Function.h"
 #include "Menu.h"
@@ -13,20 +13,20 @@ unsigned short frm_col = BACKGROUND;
 /*******************************************************************************
  LCD_WR_REG: Set LCD Register  Input: Register addr., Data
 *******************************************************************************/
-void LCD_WR_REG(unsigned short Reg, unsigned short Data) 
+void LCD_WR_REG(unsigned short Reg, unsigned short Data)
 {
   LDC_DATA_OUT=Reg;     //Reg. Addr.
   LCD_RS_LOW();         //RS=0,Piont to Index Reg.
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
   LCD_RS_HIGH();        //RS=1,Piont to object Reg.
-  LDC_DATA_OUT=Data;    //Reg. Data 
+  LDC_DATA_OUT=Data;    //Reg. Data
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
 }
 
 /*******************************************************************************
 Function Name : LCD_SET_WINDOW
 Description : use  (x1,y1) and (x2,y2) to set a rectangle  area
-Para :  (x1,y1) and (x2,y2) 
+Para :  (x1,y1) and (x2,y2)
 *******************************************************************************/
 void    LCD_SET_WINDOW(short x1, short x2, short y1, short y2)
 {
@@ -50,22 +50,22 @@ void    LCD_SET_WINDOW(short x1, short x2, short y1, short y2)
 
 }
 /*******************************************************************************
-Point_SCR: Set display position   Input: X, Y 
+Point_SCR: Set display position   Input: X, Y
 *******************************************************************************/
-void Point_SCR(unsigned short x0, unsigned short y0) 
+void Point_SCR(unsigned short x0, unsigned short y0)
 {
   LCD_WR_REG(0x0020,y0);
   LCD_WR_REG(0x0021,x0);
-  LDC_DATA_OUT=0x0022;  //DRAM Reg.      
-  LCD_RS_LOW();             
+  LDC_DATA_OUT=0x0022;  //DRAM Reg.
+  LCD_RS_LOW();
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
-  LCD_RS_HIGH();            
+  LCD_RS_HIGH();
 }
 /*******************************************************************************
  Set_Pixel: Set a Pixel  Input: Color
 *******************************************************************************/
-void Set_Pixel(unsigned short Color) 
+void Set_Pixel(unsigned short Color)
 {
   LDC_DATA_OUT=Color;   //Color Data
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
@@ -104,7 +104,7 @@ void  Display_Grid(void)
 
    // grid background + outside frame
    Fill_Rectangle(MIN_X - 1, MIN_Y - 1, X_SIZE + 2, Y_SIZE + 2, BACKGROUND);
-   
+
    // horizontal frame
    for (i = MIN_X; i <= MAX_X; i++) {
       Point_SCR(i, MIN_Y);
@@ -182,7 +182,7 @@ void Draw_SEG(unsigned short x, unsigned short y1, unsigned short y2, unsigned s
    if (y1 == 0xff) y1 = y2;
    if (y2 == 0xff) y2 = y1;
    if (y1 == 0xff) return;
-   
+
    if (y1 > y2)
    {
       unsigned short t = y2;
@@ -228,7 +228,7 @@ void Erase_SEG(unsigned short x,unsigned short y1,unsigned short y2,unsigned sho
    if (Popup.Active && (x >= Popup.x) && (x < (Popup.x + Popup.width))) clip = 1;
    for (j = y1; j <= y2; j++) {
      if (clip && (j >= Popup.y) && (j < (Popup.y + Popup.height))) continue;
-     __Erase_Color(x, j, Color); //  erase the wave curve 
+     __Erase_Color(x, j, Color); //  erase the wave curve
    }
 
 }
@@ -375,7 +375,7 @@ void Draw_Ti_Mark(unsigned short Ti, char Mode, unsigned short Color)
       __Add_Color(Ti + 1, MAX_Y, Color);
 
       __Add_Color(Ti, MAX_Y - 1, Color);
-   } 
+   }
    else
    {
       __Erase_Color(Ti - 2, MIN_Y - 1, Color);
@@ -452,7 +452,7 @@ void      Draw_Trig_Pos(void)
          __Add_Color(i, MIN_Y + 3, CH2_COLOR);
          __Add_Color(i, MIN_Y + 4, CH2_COLOR);
          __Add_Color(i, MIN_Y + 5, CH2_COLOR);
-      } 
+      }
 	  else
       {
          __Erase_Color(i, MIN_Y + 2, CH2_COLOR);
@@ -471,7 +471,7 @@ void Fill_Rectangle(short x0, short y0, short width, short height, short Color)
 
   for (i = 0; i < width * height; i++)
      Set_Pixel(Color);
-    
+
   LCD_SET_WINDOW(LCD_X1, LCD_X2, LCD_Y1, LCD_Y2); // restore full screen
 }
 
@@ -480,7 +480,7 @@ void Rounded_Rectangle(short x0, short y0, short width, short height, short Colo
   short i;
 
   Fill_Rectangle(x0 + 1,  y0 + 1, width - 2, height - 2, Color);
-  
+
   // draw inside frame
   for (i = x0 + 2; i < (x0 + width - 2); i++) {
      Point_SCR(i, y0);
@@ -546,7 +546,7 @@ void      Display_Str(short x0, short y0, short Color, char Mode, unsigned const
 void Display_Info(unsigned short x0, unsigned short y0, char *Pre, long Num)
 {
   char  buf[10], n = 0, k, str[2] = {'-', 0};
-  
+
   if (Pre) {
     char *p = Pre;
     while (*p) p++;
@@ -560,19 +560,19 @@ void Display_Info(unsigned short x0, unsigned short y0, char *Pre, long Num)
     Num = -Num;
   }
 
-  do {  
+  do {
     buf[n++] = Num % 10;
     Num /= 10;
   } while (Num > 0);
 
   k = n;
-  
+
   for (; n > 0; n--) {
     str[0] = '0' + buf[n - 1];
     Display_Str(x0, y0, WHITE, PRN, (unsigned char const *)str);
     x0 += 8;
   }
-  
+
   str[0] = ' ';
   while (k < 10) {
     Display_Str(x0, y0, WHITE, PRN, (unsigned char const *)str);

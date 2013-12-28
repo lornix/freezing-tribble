@@ -7,22 +7,22 @@
 volatile u8 mutex = 0;
 
 /*******************************************************************************
- Delay few time                              
+ Delay few time
 *******************************************************************************/
 void Delay_us(void)
-{ 
+{
   volatile u32 dlyCount = 0x100;
   while(--dlyCount);
 }
 /*******************************************************************************
-MicroSD initialization                                    return: 0x00=success 
+MicroSD initialization                                    return: 0x00=success
 *******************************************************************************/
 u8 MSD_Init(void)
 {  u32 i=0;
   SPI_Config();
-  MSD_CS_HIGH(); 
-  for(i=0; i <10; i++) MSD_WriteByte(DUMMY);  //Send dummy byte: 8 Clock pulses of delay 
-  return MSD_GoIdleState();                 
+  MSD_CS_HIGH();
+  for(i=0; i <10; i++) MSD_WriteByte(DUMMY);  //Send dummy byte: 8 Clock pulses of delay
+  return MSD_GoIdleState();
 }
 /*******************************************************************************
  MicroSD Write a Block                                   return: 0x00=success
@@ -33,9 +33,9 @@ u8 MSD_WriteBlock(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
   while (mutex > 1);
   MSD_CS_LOW(); Delay_us();
   MSD_SendCmd(MSD_WRITE_BLOCK, WriteAddr, 0xFF);//Send CMD24
-  if(!MSD_GetResponse(MSD_RESPONSE_NO_ERROR)){  
+  if(!MSD_GetResponse(MSD_RESPONSE_NO_ERROR)){
     MSD_WriteByte(DUMMY);                       //Send dummy byte: 8 Clock pulses of delay
-    MSD_WriteByte(0xFE);                        
+    MSD_WriteByte(0xFE);
     for(i=0; i<NumByteToWrite; i++) {
       MSD_WriteByte(*pBuffer); pBuffer++;
     }
@@ -47,7 +47,7 @@ u8 MSD_WriteBlock(u8* pBuffer, u32 WriteAddr, u16 NumByteToWrite)
   return rvalue;
 }
 /*******************************************************************************
- MicroSD Read a Block                                   return: 0x00=success 
+ MicroSD Read a Block                                   return: 0x00=success
 *******************************************************************************/
 u8 MSD_ReadBlock(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead)
 { u32 i = 0; u8 rvalue = MSD_RESPONSE_FAILURE;
@@ -55,8 +55,8 @@ u8 MSD_ReadBlock(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead)
   while (mutex > 1);
   MSD_CS_LOW(); Delay_us();
   MSD_SendCmd(MSD_READ_SINGLE_BLOCK, ReadAddr, 0xFF);//send CMD17
-  if (!MSD_GetResponse(MSD_RESPONSE_NO_ERROR)) {     
-    if (!MSD_GetResponse(MSD_START_DATA_SINGLE_BLOCK_READ)) { 
+  if (!MSD_GetResponse(MSD_RESPONSE_NO_ERROR)) {
+    if (!MSD_GetResponse(MSD_START_DATA_SINGLE_BLOCK_READ)) {
       for (i = 0; i < NumByteToRead; i++) {
         *pBuffer = MSD_ReadByte(); pBuffer++;
       }
@@ -76,7 +76,7 @@ u8 MSD_ReadBlock(u8* pBuffer, u32 ReadAddr, u16 NumByteToRead)
 * Input          : - MSD_csd: pointer on an SCD register structure
 * Output         : None
 * Return         : The MSD Response: - MSD_RESPONSE_FAILURE: Sequence failed
-*                                    - MSD_RESPONSE_NO_ERROR: Sequence succeed 
+*                                    - MSD_RESPONSE_NO_ERROR: Sequence succeed
 *******************************************************************************/
 u8 MSD_GetCSDRegister(sMSD_CSD* MSD_csd)
 {
@@ -87,7 +87,7 @@ u8 MSD_GetCSDRegister(sMSD_CSD* MSD_csd)
   /* MSD chip select low */
   MSD_CS_LOW();
   Delay_us();
-  
+
   /* Send CMD9 (CSD register) or CMD10(CSD register) */
   MSD_SendCmd(MSD_SEND_CSD, 0, 0xFF);
 
@@ -186,7 +186,7 @@ u8 MSD_GetCSDRegister(sMSD_CSD* MSD_csd)
 * Input          : - MSD_cid: pointer on an CID register structure
 * Output         : None
 * Return         : The MSD Response: - MSD_RESPONSE_FAILURE: Sequence failed
-*                                    - MSD_RESPONSE_NO_ERROR: Sequence succeed 
+*                                    - MSD_RESPONSE_NO_ERROR: Sequence succeed
 *******************************************************************************/
 u8 MSD_GetCIDRegister(sMSD_CID* MSD_cid)
 {
@@ -197,7 +197,7 @@ u8 MSD_GetCIDRegister(sMSD_CID* MSD_cid)
   /* MSD chip select low */
   MSD_CS_LOW();
   Delay_us();
-  
+
   /* Send CMD10 (CID register) */
   MSD_SendCmd(MSD_SEND_CID, 0, 0xFF);
 
@@ -298,7 +298,7 @@ u8 MSD_GetDataResponse(void)
 { u32 i=0; u8 response, rvalue;
   while (i<=64){
     response = MSD_ReadByte();//Read resonse
-    response &= 0x1F;//Mask unused bits 
+    response &= 0x1F;//Mask unused bits
     switch (response){
       case MSD_DATA_OK:
       {
@@ -328,7 +328,7 @@ u8 MSD_GetDataResponse(void)
 * Input          : None
 * Output         : None
 * Return         : The MSD Response: - MSD_RESPONSE_FAILURE: Sequence failed
-*                                    - MSD_RESPONSE_NO_ERROR: Sequence succeed 
+*                                    - MSD_RESPONSE_NO_ERROR: Sequence succeed
 *******************************************************************************/
 u8 MSD_GetResponse(u8 Response)
 { u32 Count=0xFFF;
@@ -350,7 +350,7 @@ u16 MSD_GetStatus(void)
   /* MSD chip select low */
   MSD_CS_LOW();
   Delay_us();
-  
+
   /* Send CMD13 (MSD_SEND_STATUS) to get MSD status */
   MSD_SendCmd(MSD_SEND_STATUS, 0, 0xFF);
 
@@ -371,14 +371,14 @@ u16 MSD_GetStatus(void)
 * Input          : None
 * Output         : None
 * Return         : The MSD Response: - MSD_RESPONSE_FAILURE: Sequence failed
-*                                    - MSD_RESPONSE_NO_ERROR: Sequence succeed 
+*                                    - MSD_RESPONSE_NO_ERROR: Sequence succeed
 *******************************************************************************/
 u8 MSD_GoIdleState(void)
 {
   /* MSD chip select low */
   MSD_CS_LOW();
   Delay_us();
-  
+
   /* Send CMD0 (GO_IDLE_STATE) to put MSD in SPI mode */
   MSD_SendCmd(MSD_GO_IDLE_STATE, 0, 0x95);
 

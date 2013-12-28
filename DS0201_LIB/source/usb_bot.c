@@ -109,8 +109,8 @@ void Mass_Storage_Out (void)
 
 /*******************************************************************************
 * Function Name  : CBW_Decode
-* Description    : Decode the received CBW and call the related SCSI command 
-*                 routine. 
+* Description    : Decode the received CBW and call the related SCSI command
+*                 routine.
 * Input          : None.
 * Output         : None.
 * Return         : None.

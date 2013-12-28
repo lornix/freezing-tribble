@@ -3,7 +3,7 @@
 * Author             : MCD Application Team
 * Version            : V1.0
 * Date               : 10/08/2007
-* Description        : This file contains all the functions prototypes for the 
+* Description        : This file contains all the functions prototypes for the
 *                      TIM firmware library.
 ********************************************************************************
 * THE PRESENT SOFTWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
@@ -46,7 +46,7 @@ typedef struct
 {
   u16 TIM_ICMode;            /* Timer Input Capture Mode */
   u16 TIM_Channel;           /* Timer Channel */
-  u16 TIM_ICPolarity;        /* Input Capture polarity */ 
+  u16 TIM_ICPolarity;        /* Input Capture polarity */
   u16 TIM_ICSelection;       /* Input Capture selection */
   u16 TIM_ICPrescaler;       /* Input Capture prescaler */
   u8 TIM_ICFilter;          /* Input Capture filter */
@@ -81,7 +81,7 @@ typedef struct
 
 #define IS_TIM_OPM_MODE(MODE) ((MODE == TIM_OPMode_Single) || \
                                (MODE == TIM_OPMode_Repetitive))
-                             
+
 /* TIM Channel --------------------------------------------------------------*/
 #define TIM_Channel_1                     ((u16)0x0000)
 #define TIM_Channel_2                     ((u16)0x0001)
@@ -150,7 +150,7 @@ typedef struct
                                        (PRESCALER == TIM_ICPSC_DIV8))
 
 /* TIM Input Capture Filer Value ---------------------------------------------*/
-#define IS_TIM_IC_FILTER(ICFILTER) (ICFILTER <= 0xF)                                      
+#define IS_TIM_IC_FILTER(ICFILTER) (ICFILTER <= 0xF)
 
 /* TIM interrupt sources ----------------------------------------------------*/
 #define TIM_IT_Update                     ((u16)0x0001)
@@ -244,7 +244,7 @@ typedef struct
                                    (LENGTH == TIM_DMABurstLength_16Bytes) || \
                                    (LENGTH == TIM_DMABurstLength_17Bytes) || \
                                    (LENGTH == TIM_DMABurstLength_18Bytes))
-                                                        
+
 /* TIM DMA sources ----------------------------------------------------------*/
 #define TIM_DMA_Update                    ((u16)0x0100)
 #define TIM_DMA_CC1                       ((u16)0x0200)
@@ -257,7 +257,7 @@ typedef struct
 
 /* TIM External Trigger Prescaler -------------------------------------------*/
 #define TIM_ExtTRGPSC_OFF                 ((u16)0x0000)
-#define TIM_ExtTRGPSC_DIV2                ((u16)0x1000) 
+#define TIM_ExtTRGPSC_DIV2                ((u16)0x1000)
 #define TIM_ExtTRGPSC_DIV4                ((u16)0x2000)
 #define TIM_ExtTRGPSC_DIV8                ((u16)0x3000)
 
@@ -299,7 +299,7 @@ typedef struct
 #define TIM_ExtTRGPolarity_NonInverted    ((u16)0x0000)
 
 #define IS_TIM_EXT_POLARITY(POLARITY) ((POLARITY == TIM_ExtTRGPolarity_Inverted) || \
-                                       (POLARITY == TIM_ExtTRGPolarity_NonInverted)) 
+                                       (POLARITY == TIM_ExtTRGPolarity_NonInverted))
 
 /* TIM Prescaler Reload Mode ------------------------------------------------*/
 #define TIM_PSCReloadMode_Update          ((u16)0x0000)
@@ -315,7 +315,7 @@ typedef struct
 #define IS_TIM_FORCED_ACTION(ACTION) ((ACTION == TIM_ForcedAction_Active) || \
                                       (ACTION == TIM_ForcedAction_InActive))
 
-/* TIM Encoder Mode ---------------------------------------------------------*/ 
+/* TIM Encoder Mode ---------------------------------------------------------*/
 #define TIM_EncoderMode_TI1               ((u16)0x0001)
 #define TIM_EncoderMode_TI2               ((u16)0x0002)
 #define TIM_EncoderMode_TI12              ((u16)0x0003)
@@ -333,7 +333,7 @@ typedef struct
 #define TIM_EventSource_Trigger           ((u16)0x0040)
 
 #define IS_TIM_EVENT_SOURCE(SOURCE) (((SOURCE & (u16)0xFFA0) == 0x0000) && (SOURCE != 0x0000))
-                                     
+
 
 /* TIM Update Source --------------------------------------------------------*/
 #define TIM_UpdateSource_Global           ((u16)0x0000)
@@ -355,7 +355,7 @@ typedef struct
 
 #define IS_TIM_OCFAST_STATE(STATE) ((STATE == TIM_OCFast_Enable) || \
                                     (STATE == TIM_OCFast_Disable))
-                                    
+
 /* TIM Ouput Compare Clear State ---------------------------------------------*/
 #define TIM_OCClear_Enable                ((u16)0x0080)
 #define TIM_OCClear_Disable               ((u16)0x0000)
@@ -363,7 +363,7 @@ typedef struct
 #define IS_TIM_OCCLEAR_STATE(STATE) ((STATE == TIM_OCClear_Enable) || \
                                      (STATE == TIM_OCClear_Disable))
 
-/* TIM Trigger Output Source ------------------------------------------------*/ 
+/* TIM Trigger Output Source ------------------------------------------------*/
 #define TIM_TRGOSource_Reset              ((u16)0x0000)
 #define TIM_TRGOSource_Enable             ((u16)0x0010)
 #define TIM_TRGOSource_Update             ((u16)0x0020)
@@ -434,8 +434,8 @@ typedef struct
                                (FLAG == TIM_FLAG_CC3OF) || \
                                (FLAG == TIM_FLAG_CC4OF))
 
-#define IS_TIM_CLEAR_FLAG(FLAG) (((FLAG & (u16)0xE1A0) == 0x0000) && (FLAG != 0x0000)) 
-                                 
+#define IS_TIM_CLEAR_FLAG(FLAG) (((FLAG & (u16)0xE1A0) == 0x0000) && (FLAG != 0x0000))
+
 
 
 /* Exported macro ------------------------------------------------------------*/
@@ -453,14 +453,14 @@ void TIM_DMAConfig(TIM_TypeDef* TIMx, u16 TIM_DMABase, u16 TIM_DMABurstLength);
 void TIM_DMACmd(TIM_TypeDef* TIMx, u16 TIM_DMASource, FunctionalState Newstate);
 void TIM_InternalClockConfig(TIM_TypeDef* TIMx);
 void TIM_ITRxExternalClockConfig(TIM_TypeDef* TIMx, u16 TIM_InputTriggerSource);
-void TIM_TIxExternalClockConfig(TIM_TypeDef* TIMx, u16 TIM_TIxExternalCLKSource, 
+void TIM_TIxExternalClockConfig(TIM_TypeDef* TIMx, u16 TIM_TIxExternalCLKSource,
                                 u16 TIM_ICPolarity, u8 ICFilter);
-void TIM_ETRClockMode1Config(TIM_TypeDef* TIMx, u16 TIM_ExtTRGPrescaler, u16 TIM_ExtTRGPolarity, 
+void TIM_ETRClockMode1Config(TIM_TypeDef* TIMx, u16 TIM_ExtTRGPrescaler, u16 TIM_ExtTRGPolarity,
                              u8 ExtTRGFilter);
-void TIM_ETRClockMode2Config(TIM_TypeDef* TIMx, u16 TIM_ExtTRGPrescaler, u16 TIM_ExtTRGPolarity, 
+void TIM_ETRClockMode2Config(TIM_TypeDef* TIMx, u16 TIM_ExtTRGPrescaler, u16 TIM_ExtTRGPolarity,
                              u8 ExtTRGFilter);
 void TIM_ETRConfig(TIM_TypeDef* TIMx, u16 TIM_ExtTRGPrescaler, u16 TIM_ExtTRGPolarity,
-                   u8 ExtTRGFilter);							 					   
+                   u8 ExtTRGFilter);
 void TIM_SelectInputTrigger(TIM_TypeDef* TIMx, u16 TIM_InputTriggerSource);
 void TIM_PrescalerConfig(TIM_TypeDef* TIMx, u16 Prescaler, u16 TIM_PSCReloadMode);
 void TIM_CounterModeConfig(TIM_TypeDef* TIMx, u16 TIM_CounterMode);
@@ -483,13 +483,13 @@ void TIM_ClearOC2Ref(TIM_TypeDef* TIMx, u16 TIM_OCClear);
 void TIM_ClearOC3Ref(TIM_TypeDef* TIMx, u16 TIM_OCClear);
 void TIM_ClearOC4Ref(TIM_TypeDef* TIMx, u16 TIM_OCClear);
 void TIM_UpdateDisableConfig(TIM_TypeDef* TIMx, FunctionalState Newstate);
-void TIM_EncoderInterfaceConfig(TIM_TypeDef* TIMx, u16 TIM_EncoderMode, 
+void TIM_EncoderInterfaceConfig(TIM_TypeDef* TIMx, u16 TIM_EncoderMode,
                                 u16 TIM_IC1Polarity, u16 TIM_IC2Polarity);
 void TIM_GenerateEvent(TIM_TypeDef* TIMx, u16 TIM_EventSource);
 void TIM_OC1PolarityConfig(TIM_TypeDef* TIMx, u16 TIM_OCPolarity);
 void TIM_OC2PolarityConfig(TIM_TypeDef* TIMx, u16 TIM_OCPolarity);
 void TIM_OC3PolarityConfig(TIM_TypeDef* TIMx, u16 TIM_OCPolarity);
-void TIM_OC4PolarityConfig(TIM_TypeDef* TIMx, u16 TIM_OCPolarity);  
+void TIM_OC4PolarityConfig(TIM_TypeDef* TIMx, u16 TIM_OCPolarity);
 void TIM_UpdateRequestConfig(TIM_TypeDef* TIMx, u16 TIM_UpdateSource);
 void TIM_SelectHallSensor(TIM_TypeDef* TIMx, FunctionalState Newstate);
 void TIM_SelectOnePulseMode(TIM_TypeDef* TIMx, u16 TIM_OPMode);
@@ -513,7 +513,7 @@ u16 TIM_GetCapture3(TIM_TypeDef* TIMx);
 u16 TIM_GetCapture4(TIM_TypeDef* TIMx);
 u16 TIM_GetCounter(TIM_TypeDef* TIMx);
 u16 TIM_GetPrescaler(TIM_TypeDef* TIMx);
-FlagStatus TIM_GetFlagStatus(TIM_TypeDef* TIMx, u16 TIM_FLAG); 
+FlagStatus TIM_GetFlagStatus(TIM_TypeDef* TIMx, u16 TIM_FLAG);
 void TIM_ClearFlag(TIM_TypeDef* TIMx, u16 TIM_FLAG);
 ITStatus TIM_GetITStatus(TIM_TypeDef* TIMx, u16 TIM_IT);
 void TIM_ClearITPendingBit(TIM_TypeDef* TIMx, u16 TIM_IT);

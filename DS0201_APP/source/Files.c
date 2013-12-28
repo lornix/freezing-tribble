@@ -1,5 +1,5 @@
 /*******************************************************************************
-File Name: files.c  
+File Name: files.c
 *******************************************************************************/
 #include "Lcd.h"
 #include "Files.h"
@@ -35,7 +35,7 @@ char FAT_Info(void)
 {
     unsigned int DiskStart;
     unsigned short RsvdSecCnt, FAT_Size, DIR_Size;
-   
+
     // read partition table
     if (pLib->MSD_ReadBlock(F_Buff, 0, 512))
        return 0xFF; // Disk error!
@@ -89,7 +89,7 @@ unsigned char SetClusterNext(void)
     addr += 512 * (ClusterNum / (512 / 4));
     i = ClusterNum % (512 / 4) * 4;
   }
-  
+
   if (pLib->MSD_ReadBlock(F_Buff, addr, 512))
      return 0xff;
 
@@ -97,8 +97,8 @@ unsigned char SetClusterNext(void)
     ClusterNum = (F_Buff[i + 1] << 8) + F_Buff[i];
     if (ClusterNum >= 0xfff0) return 0xff;
     File_Addr = Root_Addr + DirBlkNum * 512 + (ClusterNum - 2) * SecPerClus * SectorSize;
-  } else {    
-    ClusterNum = ((F_Buff[i + 3] & 0x0f) << 24) + (F_Buff[i + 2] << 16) 
+  } else {
+    ClusterNum = ((F_Buff[i + 3] & 0x0f) << 24) + (F_Buff[i + 2] << 16)
                + (F_Buff[i + 1] << 8) + F_Buff[i];
     if (ClusterNum >= 0x0ffffff0) return 0xff;
     File_Addr = Root_Addr + (ClusterNum - 2) * SecPerClus * SectorSize;
@@ -110,7 +110,7 @@ unsigned char SetClusterNext(void)
 unsigned char DirMatch(unsigned const char *p1, unsigned const char *p2, unsigned short n)
 {
   unsigned short i;
-  
+
   for (i=0; i < n; i++) {
     if (p1[i] > p2[i]) {
       if ((p1[i] - ('a' - 'A')) != p2[i]) return 0;
@@ -129,7 +129,7 @@ char DirTouch(void)
 {
   if (pLib->MSD_ReadBlock(F_Buff, Dir_Addr, 512))
      return 0xff;
-  
+
   F_Buff[Dir_Offset + 0x16] += 1;
 
   return pLib->MSD_WriteBlock(F_Buff, Dir_Addr, 512);
@@ -167,7 +167,7 @@ char Open_File(unsigned const char *name, unsigned char *num, unsigned const cha
                         + (F_Buff[i + 0x1d] << 8) + (F_Buff[i + 0x1c]);
             if (FileSize == 0)
               return 0xff;  // file exists, but is empty
-      
+
             if (FAT16) {
                ClusterNum = (F_Buff[i + 0x1B] << 8) + F_Buff[i + 0x1A];
                File_Addr = Root_Addr + DirBlkNum * 512 + (ClusterNum - 2) * SecPerClus * SectorSize;
@@ -195,7 +195,7 @@ char Open_File(unsigned const char *name, unsigned char *num, unsigned const cha
 }
 /*******************************************************************************
 Function Name : Writ_BMP_File
-Description : write the opened image file 
+Description : write the opened image file
 *******************************************************************************/
 char     Writ_BMP_File(void)
 {
@@ -233,7 +233,7 @@ char     Writ_BMP_File(void)
    }
    if (i > 0)
      rval = pLib->MSD_WriteBlock(F_Buff, File_Addr, 512);
-   
+
    pLib->SD_Set_Changed();
    return rval;
 }
@@ -252,7 +252,7 @@ Description : write the specified file and mark the sequence number
 char            Write_File(void)
 {
    char rval = pLib->MSD_WriteBlock(F_Buff, File_Addr, 512);
-   
+
    pLib->SD_Set_Changed();
    return rval;
 }

@@ -8,8 +8,8 @@
 #include "usb_regs.h"
 #include "HW_V1_Config.h"
 
-vu32 Memory_Offset;                   //Memory Offset 
-u32 Transfer_Length;                  //Transfer Length 
+vu32 Memory_Offset;                   //Memory Offset
+u32 Transfer_Length;                  //Transfer Length
 vu32 Block_Read_count = 0;
 vu32 Block_offset;
 vu32 Counter = 0;
@@ -79,11 +79,11 @@ void Get_Medium_Characteristics(void)
   Mass_Block_Count = ((MSD_csd.DeviceSize + 1) * (1 << (DeviceSizeMul))) * temp_block_mul;
   Mass_Block_Size = 512;
   Mass_Memory_Size = (Mass_Block_Count * Mass_Block_Size);
-  
+
 }
 /*******************************************************************************
 * Function Name  : Read_Memory
-* Description    : Handle the Read operation from the microSD card. 
+* Description    : Handle the Read operation from the microSD card.
 * Input          : None.
 * Output         : None.
 * Return         : None.
@@ -133,7 +133,7 @@ void Write_Memory(void)
 {
   u32 temp =  Counter + 64;
   u32 i = 0;
-  
+
   for (; Counter < temp; Counter++)
   {
     Data_Buffer[Counter] = Bulk_Data_Buff[i];
@@ -161,7 +161,7 @@ void Write_Memory(void)
 
 /*******************************************************************************
 * Function Name  : Address_Management_Test
-* Description    : Test the received address. 
+* Description    : Test the received address.
 * Input          : u8 Cmd : the command can be SCSI_READ10 or SCSI_WRITE10.
 * Output         : None.
 * Return         : Read\Write status (bool).
@@ -171,12 +171,12 @@ bool Address_Management_Test(u8 Cmd)
   vu32 temp1;
   vu32 temp2;
 
-  //Logical Block Address of First Block 
+  //Logical Block Address of First Block
   temp1 = (CBW.CB[2] << 24) |
           (CBW.CB[3] << 16) |
           (CBW.CB[4] <<  8) |
           (CBW.CB[5] <<  0);
-  //Number of Blocks to transfer 
+  //Number of Blocks to transfer
   temp2 = (CBW.CB[7] <<  8) |
           (CBW.CB[8] <<  0);
 
@@ -187,7 +187,7 @@ bool Address_Management_Test(u8 Cmd)
   {
     if (Cmd == SCSI_WRITE10)
       Bot_Abort(BOTH_DIR);
-    else 
+    else
       Bot_Abort(DIR_IN);
     Set_Scsi_Sense_Data(ILLEGAL_REQUEST, ADDRESS_OUT_OF_RANGE);
     Set_CSW (CSW_CMD_FAILED, SEND_CSW_DISABLE);

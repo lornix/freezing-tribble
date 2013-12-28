@@ -27,7 +27,7 @@
 
 /*******************************************************************************
 * Function Name  : EXTI_DeInit
-* Description    : Deinitializes the EXTI peripheral registers to their default 
+* Description    : Deinitializes the EXTI peripheral registers to their default
 *                  reset values.
 * Input          : None
 * Output         : None
@@ -37,8 +37,8 @@ void EXTI_DeInit(void)
 {
   EXTI->IMR = 0x00000000;
   EXTI->EMR = 0x00000000;
-  EXTI->RTSR = 0x00000000; 
-  EXTI->FTSR = 0x00000000; 
+  EXTI->RTSR = 0x00000000;
+  EXTI->FTSR = 0x00000000;
   EXTI->PR = 0x0007FFFF;
 }
 
@@ -57,9 +57,9 @@ void EXTI_Init(EXTI_InitTypeDef* EXTI_InitStruct)
   /* Check the parameters */
   assert_param(IS_EXTI_MODE(EXTI_InitStruct->EXTI_Mode));
   assert_param(IS_EXTI_TRIGGER(EXTI_InitStruct->EXTI_Trigger));
-  assert_param(IS_EXTI_LINE(EXTI_InitStruct->EXTI_Line));  
+  assert_param(IS_EXTI_LINE(EXTI_InitStruct->EXTI_Line));
   assert_param(IS_FUNCTIONAL_STATE(EXTI_InitStruct->EXTI_LineCmd));
-     
+
   if (EXTI_InitStruct->EXTI_LineCmd != DISABLE)
   {
     *(u32 *)(EXTI_BASE + (u32)EXTI_InitStruct->EXTI_Mode)|= EXTI_InitStruct->EXTI_Line;
@@ -67,7 +67,7 @@ void EXTI_Init(EXTI_InitTypeDef* EXTI_InitStruct)
     /* Clear Rising Falling edge configuration */
     EXTI->RTSR &= ~EXTI_InitStruct->EXTI_Line;
     EXTI->FTSR &= ~EXTI_InitStruct->EXTI_Line;
-    
+
     /* Select the trigger for the selected external interrupts */
     if (EXTI_InitStruct->EXTI_Trigger == EXTI_Trigger_Rising_Falling)
     {
@@ -117,7 +117,7 @@ void EXTI_GenerateSWInterrupt(u32 EXTI_Line)
 {
   /* Check the parameters */
   assert_param(IS_EXTI_LINE(EXTI_Line));
-  
+
   EXTI->SWIER |= EXTI_Line;
 }
 
@@ -136,7 +136,7 @@ FlagStatus EXTI_GetFlagStatus(u32 EXTI_Line)
 
   /* Check the parameters */
   assert_param(IS_GET_EXTI_LINE(EXTI_Line));
-  
+
   if ((EXTI->PR & EXTI_Line) != (u32)RESET)
   {
     bitstatus = SET;
@@ -161,7 +161,7 @@ void EXTI_ClearFlag(u32 EXTI_Line)
 {
   /* Check the parameters */
   assert_param(IS_EXTI_LINE(EXTI_Line));
-  
+
   EXTI->PR = EXTI_Line;
 }
 
@@ -181,7 +181,7 @@ ITStatus EXTI_GetITStatus(u32 EXTI_Line)
 
   /* Check the parameters */
   assert_param(IS_GET_EXTI_LINE(EXTI_Line));
-  
+
   enablestatus =  EXTI->IMR & EXTI_Line;
 
   if (((EXTI->PR & EXTI_Line) != (u32)RESET) && enablestatus)
@@ -208,7 +208,7 @@ void EXTI_ClearITPendingBit(u32 EXTI_Line)
 {
   /* Check the parameters */
   assert_param(IS_EXTI_LINE(EXTI_Line));
-  
+
   EXTI->PR = EXTI_Line;
 }
 

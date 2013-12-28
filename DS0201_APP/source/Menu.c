@@ -1,5 +1,5 @@
 /*******************************************************************************
-File Name: Menu.c   
+File Name: Menu.c
 *******************************************************************************/
 
 #include "Function.h"
@@ -124,7 +124,7 @@ unsigned char CurrentMenu;
 unsigned const char Item_V[20][10] = // vertical sensitivity labels
 // 0           1           2           3           4           5          6            7           8           9   probe attenuation x1
  {"10mV/Div", "20mV/Div", "50mV/Div", "0.1V/Div", "0.2V/Div", "0.5V/Div", " 1V/Div ", " 2V/Div ", " 5V/Div ", " 10V/Div",
-//    10        11           12         13         14           15          16          17         18          19  probe attenuation x10    
+//    10        11           12         13         14           15          16          17         18          19  probe attenuation x10
   "0.2V/Div", "0.5V/Div", " 1V/Div ", " 2V/Div ", " 5V/Div ", " 10V/Div", " 20V/Div", " 50V/Div", "100V/Div", " -GND-  "};
 
 unsigned const int V_Scale[20] = // vertical sensitivity factors
@@ -133,7 +133,7 @@ unsigned const int V_Scale[20] = // vertical sensitivity factors
 // 10     11     12     13     14      15      16      17       18    19  probe attenuation x10
   8000, 20000, 40000, 80000, 200000, 400000, 800000, 2000000, 4000000, 0};
 
-unsigned short  Km[20] =        // voltage compensating factor K = Km/4096 
+unsigned short  Km[20] =        // voltage compensating factor K = Km/4096
 // 0,    1,   2,   3,    4,   5,   6,    7,   8,   9,
  {2956, 1478, 591,  296, 1114, 446,  223, 1157, 463, 231,
 //10,    11,   12,  13,   14,  15,   16,   17,  18,  19
@@ -145,7 +145,7 @@ unsigned short  Y_POSm[20] = {20, 42, 104, 207, 55, 138, 275, 53, 132, 265, 42, 
 //Y_POS calibration array 10mV 20mV 50mV  .1V  .2V  .5V   1V   2V   5V  10V  .2V  .5V   1V   2V   5V  10V  20V  50V 100V default
 short           Y_POSn[20] = {881, 799, 566, 180, 750, 439, -75, 758, 461, -37, 799, 563, 161, 743, 424, -109, 735, 409, -146, 956};
 
-//------------time base range related parameter definitions------------      
+//------------time base range related parameter definitions------------
 
 unsigned const char Item_T[22][10] = // time sensitivity labels
 // 0           1           2            3           4           5           6         7           8          9           10
@@ -160,10 +160,10 @@ unsigned const int T_Scale[22] = // time sensitivity factors
 unsigned const short Scan_PSC[22] = // prescale of horizontal scanning interval counter - 1
  {11, 11, 11, 11, 11, 15, 15, 15, 15, 15, 15, 31, 63, 63, 127, 255, 255, 255, 511, 511, 511, 1023 };
 
-unsigned const short Scan_ARR[22] = // frequency division of horizontal scanning interval counter - 1 
+unsigned const short Scan_ARR[22] = // frequency division of horizontal scanning interval counter - 1
  {6, 6, 6, 6, 6, 8, 17, 35, 89, 179, 359, 449, 449, 899, 1124, 1124, 2249, 5624, 5624, 11249, 28124, 28124 };
 
-//------------ output base frequency related parameters definition------------      
+//------------ output base frequency related parameters definition------------
 
 unsigned const char Item_F[16][7] = // output frequency display labels
 
@@ -184,7 +184,7 @@ unsigned short  Item_Index[27] = {0, 6, 7, 80, 0, 4, 8, 0, 0, 1, 1, 9, 233, 68, 
 //hide or view the item, 1 means hide
 unsigned char   Hide_Index[27] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-//if the item needs refresh, 1 means refresh 
+//if the item needs refresh, 1 means refresh
 volatile unsigned char  Update[27];
 
 // ------------------------------------------------------------------------------------------------------------
@@ -210,25 +210,25 @@ I32STR_RES      Num;
 void     Update_Item(void)
 {
    if (Update[SYNC_MODE])
-   { 
+   {
       Update[SYNC_MODE] = 0;
       DisplayField(SyncModeF, (Item_Index[RUNNING_STATUS] == RUN)?GRN:RED, MODE_Unit[Item_Index[SYNC_MODE]]);
    }
    if (Update[Y_SENSITIVITY])
-   { 
+   {
       Update[Y_SENSITIVITY] = 0;
       DisplayField(VoltageDivF, WHITE, Item_V[Item_Index[Y_SENSITIVITY]]);
       Set_Range(Item_Index[Y_SENSITIVITY]); //voltage range
       Set_Y_Pos(Item_Index[Y_SENSITIVITY], Item_Index[V0]);
    }
    if (Update[X_SENSITIVITY])
-   { 
+   {
       Update[X_SENSITIVITY] = 0;
       DisplayField(TimeDivF, YEL, Item_T[Item_Index[X_SENSITIVITY]]);
       Set_Base(Item_Index[X_SENSITIVITY]);
    }
    if (Update[GND_POSITION])// update Y.Position
-   { 
+   {
       Update[GND_POSITION] = 0;
       Set_Y_Pos(Item_Index[Y_SENSITIVITY], Item_Index[V0]);
    }
@@ -310,12 +310,12 @@ void     Update_Item(void)
         DisplayField(InfoF, WHITE, Sub[MeFreq + Item_Index[MEASURE_KIND]].Cmd);
    }
    if (Update[POWER_INFO])
-   { 
+   {
       Update[POWER_INFO] = 0;
       DisplayField(BatteryInfoF, Battery_Color[Item_Index[POWER_INFO]], Battery_Status[Item_Index[POWER_INFO]]);
    }
    if (Update[TRIG_LEVEL])
-   { 
+   {
       Update[TRIG_LEVEL] = 0;
       Int32String_sign(&Num, (Item_Index[VT] - Item_Index[V0]) * V_Scale[Item_Index[Y_SENSITIVITY]], 3);
       DisplayFieldEx(TrigLevelF, YEL, "Tr", (unsigned const char *)Num.str, V_Unit[Num.decPos]);
@@ -326,22 +326,22 @@ void     Update_Item(void)
       if (Item_Index[CI] == TRIG_SENSITIVITY)
       {
          Int32String(&Num, Item_Index[TRIG_SENSITIVITY] * V_Scale[Item_Index[Y_SENSITIVITY]], 3);
-         DisplayFieldEx(InfoF, WHITE, "[S", (unsigned const char *)Num.str, V_Unit[Num.decPos]); 
+         DisplayFieldEx(InfoF, WHITE, "[S", (unsigned const char *)Num.str, V_Unit[Num.decPos]);
       }
    }
    if (Update[TRIG_SLOPE])
-   { 
+   {
       Update[TRIG_SLOPE] = 0;
-      DisplayField(TrigKindF, YEL, (unsigned const char *)((Item_Index[TRIG_SLOPE] == RISING)?"^":"_")); 
+      DisplayField(TrigKindF, YEL, (unsigned const char *)((Item_Index[TRIG_SLOPE] == RISING)?"^":"_"));
    }
    if (Update[INPUT_ATTENUATOR])
-   { 
+   {
       Update[INPUT_ATTENUATOR] = 0;
       if (Item_Index[CI] == INPUT_ATTENUATOR)
         DisplayField(InfoF, WHITE, (unsigned const char *)((Item_Index[INPUT_ATTENUATOR] == 0)?"Att. x1": "Att. x10"));
    }
    if (Update[SAVE_WAVE_IMAGE])
-   { 
+   {
       Update[SAVE_WAVE_IMAGE] = 0;
       if (Item_Index[CI] == SAVE_WAVE_IMAGE)
       {
@@ -350,7 +350,7 @@ void     Update_Item(void)
       }
    }
    if (Update[SAVE_WAVE_CURVE])
-   { 
+   {
       Update[SAVE_WAVE_CURVE] = 0;
       if (Item_Index[CI] == SAVE_WAVE_CURVE)
       {
@@ -359,7 +359,7 @@ void     Update_Item(void)
       }
    }
    if (Update[LOAD_WAVE_CURVE])
-   { 
+   {
       Update[LOAD_WAVE_CURVE] = 0;
       if (Item_Index[CI] == LOAD_WAVE_CURVE)
       {
@@ -368,7 +368,7 @@ void     Update_Item(void)
       }
    }
    if (Update[SHOW_WAVE_CURVE])
-   { 
+   {
       Update[SHOW_WAVE_CURVE] = 0;
       if (Item_Index[CI] == SHOW_WAVE_CURVE)
       {
@@ -376,7 +376,7 @@ void     Update_Item(void)
       }
    }
    if (Update[SAVE_PROFILE])
-   { 
+   {
       Update[SAVE_PROFILE] = 0;
       if (Item_Index[CI] == SAVE_PROFILE)
       {
@@ -388,14 +388,14 @@ void     Update_Item(void)
       }
    }
    if (Update[LOAD_PROFILE])
-   { 
+   {
       Update[LOAD_PROFILE] = 0;
       if (Item_Index[CI] == LOAD_PROFILE)
       {
         if (Item_Index[LOAD_PROFILE]) {
          Char_to_Str(FileNum, Item_Index[LOAD_PROFILE]);
          DisplayFieldEx(InfoF, WHITE, "L", FileNum, ".CFG");
-        } else 
+        } else
          DisplayFieldEx(InfoF, WHITE, "L", "Flash", "");
       }
    }
@@ -406,7 +406,7 @@ void     Update_Item(void)
       TIM4_ARR = Fout_ARR[Item_Index[OUTPUT_FREQUENCY]];
       TIM4_CCR1 = (Fout_ARR[Item_Index[OUTPUT_FREQUENCY]] + 1) / 2;
       if (Item_Index[CI] == OUTPUT_FREQUENCY)
-         DisplayFieldEx(InfoF, WHITE, "Fr.", Item_F[Item_Index[OUTPUT_FREQUENCY]], ""); 
+         DisplayFieldEx(InfoF, WHITE, "Fr.", Item_F[Item_Index[OUTPUT_FREQUENCY]], "");
    }
    if (Update[T2_CURSOR])
    {
@@ -416,31 +416,31 @@ void     Update_Item(void)
          unsigned char i = Item_Index[X_SENSITIVITY] / 9;
          unsigned char j = Item_Index[X_SENSITIVITY] % 9;
          Int32String_sign(&Num, (Item_Index[T2] - 150  + BUFFER_SIZE - Item_Index[TP]) * T_Scale[j], 3);
-         DisplayFieldEx(InfoF, WHITE, "T2", (unsigned const char *)Num.str, T_Unit[Num.decPos+i]); 
+         DisplayFieldEx(InfoF, WHITE, "T2", (unsigned const char *)Num.str, T_Unit[Num.decPos+i]);
          //Draw_Dot_Ti(Item_Index[T1], ADD, LN2_COLOR);
       }
    }
    if (Update[T1_CURSOR])
-   { 
+   {
       Update[T1_CURSOR] = 0;
       if (Item_Index[CI] == T1_CURSOR)
       {
          unsigned char i = Item_Index[X_SENSITIVITY] / 9;
          unsigned char j = Item_Index[X_SENSITIVITY] % 9;
          Int32String_sign(&Num, (Item_Index[T1] - 150 + BUFFER_SIZE - Item_Index[TP]) * T_Scale[j], 3);
-         DisplayFieldEx(InfoF, WHITE, "T1", (unsigned const char *)Num.str, T_Unit[Num.decPos+i]); 
+         DisplayFieldEx(InfoF, WHITE, "T1", (unsigned const char *)Num.str, T_Unit[Num.decPos+i]);
          //Draw_Dot_Ti(Item_Index[T1], ADD, LN2_COLOR);
       }
    }
    if (Update[TRIG_POS])
-   { 
+   {
       Update[TRIG_POS] = 0;
       if (Item_Index[CI] == TRIG_POS)
       {
          unsigned char i = Item_Index[X_SENSITIVITY] / 9;
          unsigned char j = Item_Index[X_SENSITIVITY] % 9;
          Int32String_sign(&Num, (Item_Index[TP] - BUFFER_SIZE) * T_Scale[j], 3);
-         DisplayFieldEx(InfoF, WHITE, "TP", (unsigned const char *)Num.str, T_Unit[Num.decPos+i]); 
+         DisplayFieldEx(InfoF, WHITE, "TP", (unsigned const char *)Num.str, T_Unit[Num.decPos+i]);
       }
    }
    if (Update[DELTA_T])
@@ -456,14 +456,14 @@ void     Update_Item(void)
       Update[CALIBRATE_OFFSET] = 0;
       if (Item_Index[CI] == CALIBRATE_OFFSET) {
         Int32String_sign(&Num,  V_Scale[Item_Index[Y_SENSITIVITY]] * (Item_Index[CALIBRATE_OFFSET] - 100), 3);
-        DisplayFieldEx(InfoF, WHITE, "Of", (unsigned const char *)Num.str, V_Unit[Num.decPos]); 
+        DisplayFieldEx(InfoF, WHITE, "Of", (unsigned const char *)Num.str, V_Unit[Num.decPos]);
       }
    }
    if (Update[CALIBRATE_RANGE]) {
       Update[CALIBRATE_RANGE] = 0;
       if (Item_Index[CI] == CALIBRATE_RANGE) {
         PercentString(&Num, Item_Index[CALIBRATE_RANGE] - 100);
-        DisplayFieldEx(InfoF, WHITE, "Ra", (unsigned const char *)Num.str, "%"); 
+        DisplayFieldEx(InfoF, WHITE, "Ra", (unsigned const char *)Num.str, "%");
       }
    }
    if (Update[V2_CURSOR])
@@ -478,7 +478,7 @@ void     Update_Item(void)
       DisplayFieldEx(DeltaVoltageF, WHITE, "[V", (unsigned const char *)Num.str, V_Unit[Num.decPos]);
    }
    if (Update[V1_CURSOR])
-   { 
+   {
       Update[V1_CURSOR] = 0;
       if (Item_Index[CI] == V1_CURSOR) {
         // V1 voltage
@@ -498,7 +498,7 @@ void     Update_Item(void)
          Draw_Ti_Line(Tp, Hide_Index[TP]?ERASE:ADD, CH2_COLOR);
          Draw_Ti_Mark(Tp, ADD, CH2_COLOR);
       }
-      if (Item_Index[CI] == TRIG_POS) 
+      if (Item_Index[CI] == TRIG_POS)
         Draw_Trig_Pos();
       else
         Erase_Trig_Pos();
@@ -540,7 +540,7 @@ void Erase_Sensitivity()
 void DrawMenu(void)
 {
   unsigned char i;
-  
+
   for (i = 0; i < (sizeof(Menu) / sizeof(Menu[0])); i++)
   {
     Display_Str(MAX_X + 3, MAX_Y - 17 - i * 20, YEL, PRN, Menu[i].Cmd);
@@ -565,7 +565,7 @@ void ShowPopup(void)
 {
    unsigned char i, t;
    short y;
-  
+
    // find index of first sub option
    Popup.Sub = Popup.Sub1 = Popup.Sub2 = Menu[CurrentMenu].Sub;
    while ((Popup.Sub1 > 0) && (Sub[Popup.Sub1].Top != 1)) Popup.Sub1--;
@@ -573,7 +573,7 @@ void ShowPopup(void)
    // find index of last sub option
    while ((Popup.Sub2 < (N_SUB - 1)) && (Sub[Popup.Sub2 + 1].Top != 1)) Popup.Sub2++;
 
-   // find width of largest sub option cmd string   
+   // find width of largest sub option cmd string
    Popup.width = 0;
    for (i = Popup.Sub1; i <= Popup.Sub2; i++) {
      t = strlen((char const *)Sub[i].Cmd);
@@ -581,17 +581,17 @@ void ShowPopup(void)
    }
    if (Popup.Sub1 == MeFreq) Popup.width += 9;  // space + 5 digits + 3 kind
    Popup.width = Popup.width * 8 + 8;
-   
+
    // determine height
    Popup.height = (Popup.Sub2 - Popup.Sub1 + 1) * 18 + 8;
-   
+
    // determine x1, y1 pos for popup
    Popup.x = LCD_WIDTH - 24 - Popup.width;
    Popup.y = MAX_Y - 17 + 7 - CurrentMenu * 20 - Popup.height / 2;
    if (Popup.y < 24) Popup.y = 24;
    while ((Popup.y + Popup.height) > (LCD_HEIGHT - 24)) Popup.y--;
    Popup.Sub = Menu[CurrentMenu].Sub;
-   
+
    // draw popup
    Rounded_Rectangle(Popup.x, Popup.y, Popup.width, Popup.height, FRM_COLOR);
    y = Popup.y + Popup.height - 4 - 2 - 14;
@@ -612,7 +612,7 @@ void RefreshMeasure(void)
 {
    unsigned char i;
    short y, x1, x2;
-  
+
    x1 = Popup.x + Popup.width - 4 - 1 - 8 * 8;
    x2 = x1 + 8 * 5;
    y = Popup.y + Popup.height - 4 - 2 - 14;
@@ -875,17 +875,17 @@ void LoadConfig(void)
 unsigned char CheckSub(unsigned char SubOrg, unsigned char SubNew)
 {
    unsigned char Sub1, Sub2;
-  
+
    // find index of first sub option
    Sub1 = Sub2 = SubOrg;
    while ((Sub1 > 0) && (Sub[Sub1].Top != 1)) Sub1--;
 
    // find index of last sub option
    while ((Sub2 < (N_SUB - 1)) && (Sub[Sub2 + 1].Top != 1)) Sub2++;
-   
+
    if (SubNew ==  SaveProfile) SubNew = SaveImage;
    if ((SubNew >= Sub1) && (SubNew <= Sub2)) return SubNew;
-   
+
    return SubOrg;
 }
 
@@ -905,7 +905,7 @@ void RestoreConfig(void)
 {
    unsigned char t = Menu[CurrentMenu].Sub;    // preserve active menu option
    unsigned short i;
-   
+
    if ((F_Buff[0] == 0x30) && (F_Buff[1] == 0x00)) {
       Erase_Sensitivity();
       memcpy(Item_Index, F_Buff + 2, sizeof(Item_Index));

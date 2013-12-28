@@ -56,13 +56,13 @@ void DMA_DeInit(DMA_Channel_TypeDef* DMA_Channelx)
 
   /* Reset Channelx control register */
   DMA_Channelx->CCR  = 0;
-  
+
   /* Reset Channelx remaining bytes register */
   DMA_Channelx->CNDTR = 0;
-  
+
   /* Reset Channelx peripheral address register */
   DMA_Channelx->CPAR  = 0;
-  
+
   /* Reset Channelx memory address register */
   DMA_Channelx->CMAR = 0;
 
@@ -126,9 +126,9 @@ void DMA_Init(DMA_Channel_TypeDef* DMA_Channelx, DMA_InitTypeDef* DMA_InitStruct
 
   /* Check the parameters */
   assert_param(IS_DMA_DIR(DMA_InitStruct->DMA_DIR));
-  assert_param(IS_DMA_BUFFER_SIZE(DMA_InitStruct->DMA_BufferSize));	   
-  assert_param(IS_DMA_PERIPHERAL_INC_STATE(DMA_InitStruct->DMA_PeripheralInc));  
-  assert_param(IS_DMA_MEMORY_INC_STATE(DMA_InitStruct->DMA_MemoryInc));   
+  assert_param(IS_DMA_BUFFER_SIZE(DMA_InitStruct->DMA_BufferSize));
+  assert_param(IS_DMA_PERIPHERAL_INC_STATE(DMA_InitStruct->DMA_PeripheralInc));
+  assert_param(IS_DMA_MEMORY_INC_STATE(DMA_InitStruct->DMA_MemoryInc));
   assert_param(IS_DMA_PERIPHERAL_DATA_SIZE(DMA_InitStruct->DMA_PeripheralDataSize));
   assert_param(IS_DMA_MEMORY_DATA_SIZE(DMA_InitStruct->DMA_MemoryDataSize));
   assert_param(IS_DMA_MODE(DMA_InitStruct->DMA_Mode));
@@ -219,7 +219,7 @@ void DMA_StructInit(DMA_InitTypeDef* DMA_InitStruct)
 * Description    : Enables or disables the specified DMA Channelx.
 * Input          : - DMA_Channelx: where x can be 1, 2 to 7 to select the DMA
 *                    Channel.
-*                  - NewState: new state of the DMA Channelx. 
+*                  - NewState: new state of the DMA Channelx.
 *                    This parameter can be: ENABLE or DISABLE.
 * Output         : None
 * Return         : None
@@ -229,7 +229,7 @@ void DMA_Cmd(DMA_Channel_TypeDef* DMA_Channelx, FunctionalState NewState)
   /* Check the parameters */
   assert_param(IS_FUNCTIONAL_STATE(NewState));
 
-  if (NewState != DISABLE)				  
+  if (NewState != DISABLE)
   {
     /* Enable the selected DMA Channelx */
     DMA_Channelx->CCR |= CCR_ENABLE_Set;
@@ -245,7 +245,7 @@ void DMA_Cmd(DMA_Channel_TypeDef* DMA_Channelx, FunctionalState NewState)
 * Function Name  : DMA_ITConfig
 * Description    : Enables or disables the specified DMA Channelx interrupts.
 * Input          : - DMA_IT: specifies the DMA interrupts sources to be enabled
-*                    or disabled. 
+*                    or disabled.
 *                    This parameter can be any combination of the following values:
 *                       - DMA_IT_TC:  Transfer complete interrupt mask
 *                       - DMA_IT_HT:  Half transfer interrupt mask
@@ -292,7 +292,7 @@ u16 DMA_GetCurrDataCounter(DMA_Channel_TypeDef* DMA_Channelx)
 /*******************************************************************************
 * Function Name  : DMA_GetFlagStatus
 * Description    : Checks whether the specified DMA Channelx flag is set or not.
-* Input          : - DMA_FLAG: specifies the flag to check. 
+* Input          : - DMA_FLAG: specifies the flag to check.
 *                    This parameter can be one of the following values:
 *                       - DMA_FLAG_GL1: Channel1 global flag.
 *                       - DMA_FLAG_TC1: Channel1 transfer complete flag.
@@ -350,7 +350,7 @@ FlagStatus DMA_GetFlagStatus(u32 DMA_FLAG)
 /*******************************************************************************
 * Function Name  : DMA_ClearFlag
 * Description    : Clears the DMA Channelx's pending flags.
-* Input          : - DMA_FLAG: specifies the flag to clear. 
+* Input          : - DMA_FLAG: specifies the flag to clear.
 *                    This parameter can be any combination of the following values:
 *                       - DMA_FLAG_GL1: Channel1 global flag.
 *                       - DMA_FLAG_TC1: Channel1 transfer complete flag.
@@ -394,9 +394,9 @@ void DMA_ClearFlag(u32 DMA_FLAG)
 
 /*******************************************************************************
 * Function Name  : DMA_GetITStatus
-* Description    : Checks whether the specified DMA Channelx interrupt has 
+* Description    : Checks whether the specified DMA Channelx interrupt has
 *                  occurred or not.
-* Input          : - DMA_IT: specifies the DMA interrupt source to check. 
+* Input          : - DMA_IT: specifies the DMA interrupt source to check.
 *                    This parameter can be one of the following values:
 *                       - DMA_IT_GL1: Channel1 global interrupt.
 *                       - DMA_IT_TC1: Channel1 transfer complete interrupt.

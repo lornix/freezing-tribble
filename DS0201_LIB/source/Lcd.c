@@ -102,7 +102,7 @@ unsigned const short Char_Dot[760] =
    0x2FD0,0x2FD0,0x2FD0,0x2FD0,0x2FD0,0x2FD0,0x2FD0,0x2FD0,// | Battery body
    0x2FD0,0x2FD0,0x2FD0,0x2FD0,0x2FD0,0x2010,0x3FF0,0x0000,// } Battery bottom
    0x0780,0x0480,0x3CF0,0x2010,0x2010,0x2010,0x2010,0x2010 // ~ Empty head
-};                                            
+};
 
 unsigned const short Logo_Dot[] = {
   7,38,
@@ -163,7 +163,7 @@ unsigned const char Ref_Buffer[304] = {
 unsigned short Get_Font_8x14(unsigned char chr, unsigned char row)
 {
   unsigned  short idx = (chr - 0x22) * 8;
-  
+
   return Char_Dot[idx + row];
 }
 
@@ -175,41 +175,41 @@ unsigned char Get_Ref_Wave(unsigned short idx)
 /*******************************************************************************
  LCD_WR_REG: Set LCD Register  Input: Register addr., Data
 *******************************************************************************/
-void LCD_WR_REG(unsigned short Reg, unsigned short Data) 
+void LCD_WR_REG(unsigned short Reg, unsigned short Data)
 {
   LDC_DATA_OUT=Reg;     //Reg. Addr.
   LCD_RS_LOW();         //RS=0,Piont to Index Reg.
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
   LCD_RS_HIGH();        //RS=1,Piont to object Reg.
-  LDC_DATA_OUT=Data;    //Reg. Data 
+  LDC_DATA_OUT=Data;    //Reg. Data
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
 }
 
 /*******************************************************************************
- LCD  initializtion 
+ LCD  initializtion
 *******************************************************************************/
 void LCD_Initial(void)
-{   
+{
   //------------------------- Reset LCD Driver ---------------------//
   LCD_DATA_BUS_OUT();   //Set LCD Data Bus as Output Mode
   LCD_nWR_HIGH();
-  LCD_nRD_HIGH();       
-  LCD_RS_HIGH();        //RS=1        
-  LCD_nRST_HIGH(); 
-  Delayms(1);           //RST=1, Delay 1ms      
-  LCD_nRST_LOW(); 
-  Delayms(1);          //RST=0 Reset LCD, Delay 1ms      
-  LCD_nRST_HIGH(); 
-  Delayms(5);          //RST=1, Delay 5 ms  
- //----------------ST7781 Internal Register Initial------------//         
-  LCD_WR_REG(0x00FF, 0x0001);  
-  LCD_WR_REG(0x00F3, 0x0008);  
-  LDC_DATA_OUT=0x00F3;     
-  LCD_RS_LOW();         
-  LCD_nWR_ACT();       //Read Parameter      
-  LCD_RS_HIGH();        
+  LCD_nRD_HIGH();
+  LCD_RS_HIGH();        //RS=1
+  LCD_nRST_HIGH();
+  Delayms(1);           //RST=1, Delay 1ms
+  LCD_nRST_LOW();
+  Delayms(1);          //RST=0 Reset LCD, Delay 1ms
+  LCD_nRST_HIGH();
+  Delayms(5);          //RST=1, Delay 5 ms
+ //----------------ST7781 Internal Register Initial------------//
+  LCD_WR_REG(0x00FF, 0x0001);
+  LCD_WR_REG(0x00F3, 0x0008);
+  LDC_DATA_OUT=0x00F3;
+  LCD_RS_LOW();
+  LCD_nWR_ACT();       //Read Parameter
+  LCD_RS_HIGH();
  //-------------------Display Control Setting-----------------//
-  LCD_WR_REG(0x0001, 0x0100);    //Output Direct 
+  LCD_WR_REG(0x0001, 0x0100);    //Output Direct
   LCD_WR_REG(0x0002, 0x0700);    //Line Inversion
   LCD_WR_REG(0x0003, 0x0030);    //BGR=0,ID=11
   LCD_WR_REG(0x0008, 0x0302);    //Porch Setting
@@ -220,7 +220,7 @@ void LCD_Initial(void)
   LCD_WR_REG(0x0011, 0x0005);    //Power Control2
   LCD_WR_REG(0x0012, 0x0000);    //Power Control3
   LCD_WR_REG(0x0013, 0x0000);    //Power Control4
-  Delayms(100);                  //Delay 100ms   
+  Delayms(100);                  //Delay 100ms
   LCD_WR_REG(0x0010, 0x12B0);    //Power Control1
   Delayms(50);                   //delay 50ms
   LCD_WR_REG(0x0011, 0x0007);    //Power Control2
@@ -254,46 +254,46 @@ void LCD_Initial(void)
 }
 
 /*******************************************************************************
-Point_SCR: Set display position   Input: X, Y 
+Point_SCR: Set display position   Input: X, Y
 *******************************************************************************/
-void Point_SCR(unsigned short x0, unsigned short y0) 
+void Point_SCR(unsigned short x0, unsigned short y0)
 {
   LCD_WR_REG(0x0020,y0);
   LCD_WR_REG(0x0021,x0);
-  LDC_DATA_OUT=0x0022;  //DRAM Reg.      
-  LCD_RS_LOW();             
+  LDC_DATA_OUT=0x0022;  //DRAM Reg.
+  LCD_RS_LOW();
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
-  LCD_RS_HIGH();            
+  LCD_RS_HIGH();
 }
 /*******************************************************************************
  Set_Pixel: Set a Pixel  Input: Color
 *******************************************************************************/
-void Set_Pixel(unsigned short Color) 
+void Set_Pixel(unsigned short Color)
 {
   LDC_DATA_OUT=Color;   //Color Data
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
 }
 /*******************************************************************************
- Clear Screen 
+ Clear Screen
 *******************************************************************************/
-void Clear_Screen(unsigned short Color)						
-{ 
-  unsigned int i; 
+void Clear_Screen(unsigned short Color)
+{
+  unsigned int i;
   Point_SCR(0, 0);    //X_pos=0, Y_pos=0
   for(i=0;i<240*320;++i) Set_Pixel(Color);
 }
 /*******************************************************************************
- Display_Str: Display String   Input: x, y , Color, Mode, String  
+ Display_Str: Display String   Input: x, y , Color, Mode, String
 *******************************************************************************/
 void Display_Str(unsigned short x0, unsigned short y0, unsigned short Color, unsigned char Mode, unsigned const char *s)
-{ 
-  signed short i, j, b; 
+{
+  signed short i, j, b;
   Point_SCR(x0, y0);
-  for (j=0; j<14;++j) { 
+  for (j=0; j<14;++j) {
     Set_Pixel(Mode?Color:BLACK);
   }
-  x0++;        
+  x0++;
   while (*s!=0) {
     unsigned const short *scanline=Char_Dot+((*s-0x22)*8);
     for(i=0;i<8;++i){
@@ -310,16 +310,16 @@ void Display_Str(unsigned short x0, unsigned short y0, unsigned short Color, uns
         b>>=1;
       }
     }
-    if(*s==0x21) x0 +=4;       
-    else  x0 += 8;             
+    if(*s==0x21) x0 +=4;
+    else  x0 += 8;
     ++s;                           //next character
   }
 }
 /*******************************************************************************
- Display_Logo: Display Logo   Input: X, Y 
+ Display_Logo: Display Logo   Input: X, Y
 *******************************************************************************/
 void Display_Logo(unsigned short Dot_x, unsigned short Dot_y)
-{ 
+{
   unsigned short i, j, k, l, Color, b;
 
   Color = BLUE;
@@ -338,7 +338,7 @@ void Display_Logo(unsigned short Dot_x, unsigned short Dot_y)
       k++;
     }
   }
-  
+
   Color = WHITE;
   for (i=0; i<320; ++i)
   {
@@ -370,7 +370,7 @@ void Display_Logo(unsigned short Dot_x, unsigned short Dot_y)
 void Display_Info(unsigned short x0, unsigned short y0, char *Pre, long Num)
 {
   char  buf[10], n = 0, k, str[2] = {'-', 0};
-  
+
   if (Pre) {
     char *p = Pre;
     while (*p) p++;
@@ -384,26 +384,26 @@ void Display_Info(unsigned short x0, unsigned short y0, char *Pre, long Num)
     Num = -Num;
   }
 
-  do {  
+  do {
     buf[n++] = Num % 10;
     Num /= 10;
   } while (Num > 0);
 
   k = n;
-  
+
   for (; n > 0; n--) {
     str[0] = '0' + buf[n - 1];
     Display_Str(x0, y0, WHITE, PRN, (unsigned char const *)str);
     x0 += 8;
   }
-  
+
   str[0] = ' ';
   while (k < 10) {
     Display_Str(x0, y0, WHITE, PRN, (unsigned char const *)str);
     x0 += 8;
     k++;
   }
-  
+
 }
 
 /******************************** END OF FILE *********************************/

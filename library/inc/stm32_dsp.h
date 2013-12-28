@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file STM32F10x_DSP_Lib/inc/stm32_dsp.h 
+  * @file STM32F10x_DSP_Lib/inc/stm32_dsp.h
   * @author  MCD Application Team
   * @version  V2.0.0
   * @date  04/27/2009
@@ -16,7 +16,7 @@
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
   * <h2><center>&copy; COPYRIGHT 2009 STMicroelectronics</center></h2>
-  */ 
+  */
 
 
 /* Define to prevent recursive inclusion -------------------------------------*/

@@ -1,5 +1,5 @@
 /*******************************************************************************
-File Name: HW_V1_config.c 
+File Name: HW_V1_config.c
 *******************************************************************************/
 #include "Function.h"
 #include "Menu.h"
@@ -44,7 +44,7 @@ void      NVIC_Configuration(void)
 
 /*******************************************************************************
 Function Name : Set_Range
-Description : set the range of the voltage 
+Description : set the range of the voltage
 *******************************************************************************/
 void     Set_Range(char Range)
 {
@@ -163,7 +163,7 @@ void     ADC_Start(void)
 /*******************************************************************************
 Function Name : Set_Y_Pos
 Description : set the baseline of the no-voltage
-Para : i is the index of the array, Y0 is the voltage 
+Para : i is the index of the array, Y0 is the voltage
 *******************************************************************************/
 void    Set_Y_Pos(unsigned short i, unsigned short Y0)
 {

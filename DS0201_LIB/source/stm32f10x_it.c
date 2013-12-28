@@ -142,16 +142,16 @@ void TIM3_IRQHandler(void)
 
    if (Delay_Counter > 0)
       Delay_Counter--;
-   
+
    if (Counter_20ms)
       Counter_20ms--;
-  
+
    else { // checking for key press every 20ms
       Counter_20ms = 20;
 
-      if (Key_Wait_Counter) 
+      if (Key_Wait_Counter)
         Key_Wait_Counter--;
-      
+
       if (!(GPIOD_IDR & KEY_M)) KeyCode = KEYCODE_M;
       else if (!(GPIOA_IDR & KEY_B)) KeyCode = KEYCODE_B;
       else if (!(GPIOA_IDR & KEY_PLAY)) KeyCode = KEYCODE_PLAY;
@@ -159,7 +159,7 @@ void TIM3_IRQHandler(void)
       else if (!(GPIOD_IDR & KEY_DOWN)) KeyCode = KEYCODE_DOWN;
       else if (!(GPIOA_IDR & KEY_LEFT)) KeyCode = KEYCODE_LEFT;
       else if (!(GPIOA_IDR & KEY_RIGHT)) KeyCode = KEYCODE_RIGHT;
-    
+
       if (KeyCode) {
         if (KeyCode == KeyCode_Last) {
           if (Key_Wait_Counter == 0) {
